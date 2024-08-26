@@ -1,0 +1,130 @@
+* {
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 20px;
+}
+
+body {
+  font-family: 'MyCustomFont', arial;
+  background-color: #111;
+  height: 100vh;
+  margin: 0;
+  overflow-y: auto;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h3 {
+  font-size: 25px;
+}
+
+h1, h3 {
+  color: #87ceeb;
+}
+
+span {
+  color: #87ceeb;
+  margin-right: 7px;
+}
+
+header {
+  position: fixed;
+  padding: 3px 10px;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: end;
+  z-index: 10;
+}
+
+header ul {
+  display: flex;
+  column-gap: 10px;
+  cursor: pointer;
+  background-color: #11111152;
+  border-radius: 3px;
+  padding: 2px 10px;
+  flex-wrap: wrap;
+}
+
+main {
+  display: flex;
+  height: 100vh;
+}
+
+picture {
+  flex: 1;
+}
+
+picture img {
+  object-fit: cover;
+  height: 100%;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  overflow-y: scroll;
+  margin-top: 40px;
+}
+
+.logo {
+  width: 100px;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul li {
+  cursor: pointer;
+}
+
+@media (max-width: 486px) {
+  * {
+    font-size: 18px;
+  }
+  header {
+    padding: 3px 5px;
+  }
+  header ul {
+    flex-direction: column;
+    row-gap: 5px;
+  }
+}
+
+@media (max-width: 720px) {
+  main {
+    flex-direction: column;
+  }
+  .container {
+    flex: 2;
+    margin-top: 10px;
+  }
+}
+
+@font-face {
+  font-family: 'MyCustomFont';
+  src:
+       url('fonts/damascus-regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
