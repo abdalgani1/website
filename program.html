@@ -137,6 +137,7 @@
 </head>
 <body>
     <div id="root"></div>
+    <audio id="audioPlayer" style="display:none;"></audio>
 
     <script type="text/babel">
         function TextSplitterPart({ language, initialDelimiter, isJapanese }) {
@@ -182,8 +183,23 @@
                 setSmallTexts(newSmallTexts);
             };
 
-            const handlePlay = (text) => {
-                console.log(`Playing: ${text}`); // In real scenarios, this would play audio
+            const handlePlay = (index) => {
+                const audioPlayer = document.getElementById('audioPlayer');
+                const fourDigitNumber = kakkoNumbers[index];
+                console.log(fourDigitNumber)
+                if (fourDigitNumber) {
+                    // Construct the filename based on the 4-digit number
+                    const fileName = `2003_${fourDigitNumber}_03.OGG`;
+                    const fullPath = `/2003/${fileName}`; // Assuming server root as the base path
+                    
+                    // Update the source of the audio element
+                    audioPlayer.src = fullPath;
+                    audioPlayer.play().catch(e => {
+                        console.error('Error playing audio:', e);
+                    });
+                } else {
+                    console.log('No corresponding audio file for this text segment.');
+                }
             };
 
             return (
@@ -241,7 +257,7 @@
                                 {isJapanese && (
                                     <button 
                                         className="button play-button" 
-                                        onClick={() => handlePlay(text)}
+                                        onClick={() => handlePlay(index)}
                                     >
                                         ▶
                                     </button>
