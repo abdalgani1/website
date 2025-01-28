@@ -186,13 +186,11 @@
             const handlePlay = (index) => {
                 const audioPlayer = document.getElementById('audioPlayer');
                 const fourDigitNumber = kakkoNumbers[index];
+                console.log(fourDigitNumber)
                 if (fourDigitNumber) {
-                    // Generate a random number between 1 and 99
-                    const randomNumber = Math.floor(Math.random() * 99) + 1;
-                    
-                    // Construct the filename with a random number instead of '03'
-                    const fileName = `2003_${fourDigitNumber}_${randomNumber.toString().padStart(2, '0')}.OGG`;
-                    const fullPath = `2003/${fileName}`;
+                    // Construct the filename based on the 4-digit number
+                    const fileName = `2003_${fourDigitNumber}.ogg`;
+                    const fullPath = `2003/${fileName}`; // Assuming server root as the base path
                     
                     // Update the source of the audio element
                     audioPlayer.src = fullPath;
