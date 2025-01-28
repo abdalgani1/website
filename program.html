@@ -190,7 +190,7 @@
                 if (fourDigitNumber) {
                     // Construct the filename based on the 4-digit number
                     const fileName = `2003_${fourDigitNumber}_03.OGG`;
-                    const fullPath = `website/2003/${fileName}`; // Assuming server root as the base path
+                    const fullPath = `/2003/${fileName}`; // Assuming server root as the base path
                     
                     // Update the source of the audio element
                     audioPlayer.src = fullPath;
