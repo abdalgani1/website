@@ -91,7 +91,7 @@
             padding: 10px;
         }
         .unite-button {
-            width: 100%;
+            width: 45%;
             padding: 10px;
             background-color: #28a745;
             color: white;
@@ -100,6 +100,7 @@
             font-size: 16px;
             margin-top: 10px;
             margin-bottom: 10px;
+            margin-left: 10px;
         }
         .output-area {
             width: 100%;
@@ -136,29 +137,32 @@
     </style>
 </head>
 <body>
+    <div style="display: flex; justify-content: center;">  
+        <input class="folder-name" type="text" style="width: 100px;">
+    </div>
     <div id="root"></div>
     <audio id="audioPlayer" style="display:none;"></audio>
 
     <script type="text/babel">
         function TextSplitterPart({ language, initialDelimiter, isJapanese }) {
             const [mainText, setMainText] = React.useState('');
-            const [smallTexts, setSmallTexts] = React.useState(new Array(1000).fill(''));
+            const [smallTexts, setSmallTexts] = React.useState(new Array(1500).fill(''));
             const [outputText, setOutputText] = React.useState('');
             const [delimiter, setDelimiter] = React.useState(initialDelimiter);
-            const [kakkoNumbers, setKakkoNumbers] = React.useState(new Array(1000).fill(''));
+            const [kakkoNumbers, setKakkoNumbers] = React.useState(new Array(1500).fill(''));
 
             const handleSplit = () => {
                 const splitTexts = mainText.split(delimiter).map(text => text.trim());
                 
-                const newSmallTexts = new Array(1000).fill('');
+                const newSmallTexts = new Array(1500).fill('');
                 splitTexts.forEach((text, index) => {
-                    if (index < 1000) {
+                    if (index < 1500) {
                         newSmallTexts[index] = text;
                     }
                 });
 
                 setSmallTexts(newSmallTexts);
-                setKakkoNumbers(new Array(1000).fill('')); // Reset when splitting
+                setKakkoNumbers(new Array(1500).fill('')); // Reset when splitting
             };
 
             const handleUnite = () => {
@@ -168,7 +172,7 @@
             };
 
             const handleCountKakkoWithNumbers = () => {
-                const newKakkoNumbers = new Array(1000).fill('');
+                const newKakkoNumbers = new Array(1500).fill('');
                 let currentKakkoCount = 0;
 
                 const newSmallTexts = smallTexts.map((text, index) => {
@@ -184,13 +188,14 @@
             };
 
             const handlePlay = (index) => {
+                const folderName = document.querySelector('.folder-name').value
                 const audioPlayer = document.getElementById('audioPlayer');
                 const fourDigitNumber = kakkoNumbers[index];
                 console.log(fourDigitNumber)
                 if (fourDigitNumber) {
                     // Construct the filename based on the 4-digit number
-                    const fileName = `2003_${fourDigitNumber}.mp3`;
-                    const fullPath = `2003/${fileName}`; // Assuming server root as the base path
+                    const fileName = `${folderName}_${fourDigitNumber}.mp3`;
+                    const fullPath = `${folderName}/${fileName}`; // Assuming server root as the base path
                     
                     // Update the source of the audio element
                     audioPlayer.src = fullPath;
@@ -271,6 +276,15 @@
                     >
                         Unite
                     </button>
+                    <button
+                        className="unite-button"
+                        onClick={() => {
+                            navigator.clipboard.writeText(outputText);
+                        }}
+                        style={{ backgroundColor: '#ffc107', width: '45%', marginRight: '10px'}}
+                    >
+                        Copy
+                    </button>
                     <textarea 
                         className="output-area"
                         value={outputText}
@@ -285,9 +299,9 @@
         function App() {
             return (
                 <div className="app-container">
-                    <TextSplitterPart language="Arabic" initialDelimiter="،" />
+                    <TextSplitterPart language="Arabic" initialDelimiter="," />
                     <TextSplitterPart language="English" initialDelimiter="," />
-                    <TextSplitterPart language="Japanese" initialDelimiter="、" isJapanese={true} />
+                    <TextSplitterPart language="Jp" initialDelimiter="," isJapanese={true} />
                 </div>
             );
         }
