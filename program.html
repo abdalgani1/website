@@ -166,8 +166,8 @@
             };
 
             const handleUnite = () => {
-                const filteredTexts = smallTexts.filter(text => text.trim() !== '');
-                const unitedText = filteredTexts.join(delimiter);
+                // Instead of filtering out empty strings, map each element to include empty strings as well
+                const unitedText = smallTexts.slice(0, 1500).map(text => text.trim() || '').join(delimiter);
                 setOutputText(unitedText);
             };
 
