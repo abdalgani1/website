@@ -152,6 +152,29 @@
       height: 30px;
       margin-left: 5px;
     }
+
+    /* Add this for RTL support */
+    .language-part[lang="ar"] {
+      direction: rtl;
+      text-align: right;
+    }
+
+    .language-part[lang="ar"] .main-input,
+    .language-part[lang="ar"] .small-input,
+    .language-part[lang="ar"] .output-area {
+      direction: rtl;
+      text-align: right;
+    }
+
+    .language-part[lang="ar"] .small-input-number {
+      text-align: left; /* Since numbers in Arabic are still left-aligned */
+    }
+
+    /* Adjust button alignment for RTL languages */
+    .language-part[lang="ar"] .button-container,
+    .language-part[lang="ar"] .unite-button {
+      justify-content: flex-end;
+    }
   </style>
 </head>
 
@@ -163,7 +186,7 @@
   <audio id="audioPlayer" style="display:none;"></audio>
 
   <script type="text/babel">
-    function TextSplitterPart({ language, initialDelimiter, isJapanese, scrollTop, setScrollTop }) {
+    function TextSplitterPart({ language, lang, initialDelimiter, isJapanese, scrollTop, setScrollTop }) {
       const [mainText, setMainText] = React.useState('');
       const [smallTexts, setSmallTexts] = React.useState(new Array(1500).fill(''));
       const [outputText, setOutputText] = React.useState('');
@@ -234,7 +257,7 @@
       };
 
       return (
-        <div className="language-part">
+        <div className="language-part" lang={lang}>
           <div className="language-title">{language} Part</div>
           <input
             type="text"
@@ -248,8 +271,8 @@
             value={mainText}
             onChange={(e) => setMainText(e.target.value)}
             placeholder={`Enter ${language} text to split`}
-          rows="5"
-                    />
+            rows="5"
+          />
           <div className="button-container">
             <button
               className="button split-button"
@@ -332,14 +355,15 @@
       return (
         <div className="app-container">
           <TextSplitterPart
-            language="Arabic"
+            language="English"
             initialDelimiter=","
             scrollTop={scrollTop}
             setScrollTop={setScrollTop}
           />
           <TextSplitterPart
-            language="English"
-            initialDelimiter=","
+            language="Arabic"
+            lang="ar" // Add this for Arabic to use RTL
+            initialDelimiter="،" // Arabic comma
             scrollTop={scrollTop}
             setScrollTop={setScrollTop}
           />
