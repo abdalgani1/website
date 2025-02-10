@@ -173,8 +173,7 @@
     <audio id="audioPlayer" style="display:none;"></audio>
 
     <script type="text/babel">
-        function TextSplitterPart({ language, initialDelimiter, isJapanese, setOutput, outputText }) {
-            const [mainText, setMainText] = React.useState('');
+        function TextSplitterPart({ language, initialDelimiter, isJapanese, setOutput, outputText, mainText, setMainText }) {
             const [smallTexts, setSmallTexts] = React.useState(new Array(1500).fill(''));
             const [delimiter, setDelimiter] = React.useState(initialDelimiter);
             const [kakkoNumbers, setKakkoNumbers] = React.useState(new Array(1500).fill(''));
@@ -345,6 +344,7 @@
 
         function App() {
             const [outputs, setOutputs] = React.useState(["", "", ""]);
+            const [mainTexts, setMainTexts] = React.useState(["", "", ""]);
 
             const handleSave = () => {
                 const textToSave = outputs.join("\n---\n"); // Separate different language parts with "---"
@@ -369,7 +369,8 @@
                     reader.onload = (e) => {
                         const content = e.target.result;
                         const parts = content.split("\n---\n"); // Splitting based on our separator
-                        setOutputs(parts.slice(0, 3)); // Ensure we only take up to 3 parts or less
+                        setMainTexts(parts.slice(0, 3)); // Load into main text inputs
+                        setOutputs(parts.slice(0, 3)); // Also update outputs for consistency
                     };
                     reader.readAsText(file);
                 };
@@ -388,12 +389,16 @@
                             initialDelimiter="," 
                             setOutput={(text) => setOutputs(prev => [text, prev[1], prev[2]])}
                             outputText={outputs[0]}
+                            mainText={mainTexts[0]}
+                            setMainText={(text) => setMainTexts(prev => [text, prev[1], prev[2]])}
                         />
                         <TextSplitterPart 
                             language="Arabic" 
                             initialDelimiter="," 
                             setOutput={(text) => setOutputs(prev => [prev[0], text, prev[2]])}
                             outputText={outputs[1]}
+                            mainText={mainTexts[1]}
+                            setMainText={(text) => setMainTexts(prev => [prev[0], text, prev[2]])}
                         />
                         <TextSplitterPart 
                             language="Jp" 
@@ -401,6 +406,8 @@
                             isJapanese={true} 
                             setOutput={(text) => setOutputs(prev => [prev[0], prev[1], text])}
                             outputText={outputs[2]}
+                            mainText={mainTexts[2]}
+                            setMainText={(text) => setMainTexts(prev => [prev[0], prev[1], text])}
                         />
                     </div>
                 </div>
