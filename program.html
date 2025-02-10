@@ -32,6 +32,34 @@
             border-radius: 8px;
             padding: 10px;
         }
+        .arabic-part {
+            direction: rtl;
+        }
+        .arabic-part textarea, 
+        .arabic-part input {
+            text-align: right;
+        }
+        .arabic-part .small-input-wrapper {
+            flex-direction: row-reverse;
+        }
+        .arabic-part .small-input-number {
+            text-align: left;
+        }
+        .arabic-part .kakko-number {
+            right: auto;
+            left: -50px; 
+        }
+        .arabic-part .button-container {
+            flex-direction: row-reverse;
+        }
+        .arabic-part .unite-button {
+            margin-left: auto; 
+            margin-right: 10px;
+        }
+        .arabic-part .play-button {
+            margin-left: auto;  
+            margin-right: 5px;
+        }
         .button-container {
             display: flex;
             gap: 10px;
@@ -138,18 +166,20 @@
 </head>
 <body>
     <div style="display: flex; justify-content: center;">  
-        <input class="folder-name" type="text" style="width: 100px;">
+        <input class="folder-name" type="text" style="width: 100px;" placeholder="Folder Name">
+        <input class="link-input" type="text" style="width: 100px;" placeholder="Server Link">
     </div>
     <div id="root"></div>
     <audio id="audioPlayer" style="display:none;"></audio>
 
     <script type="text/babel">
-        function TextSplitterPart({ language, initialDelimiter, isJapanese }) {
+        function TextSplitterPart({ language, initialDelimiter, isJapanese, setOutput, outputText }) {
             const [mainText, setMainText] = React.useState('');
             const [smallTexts, setSmallTexts] = React.useState(new Array(1500).fill(''));
-            const [outputText, setOutputText] = React.useState('');
             const [delimiter, setDelimiter] = React.useState(initialDelimiter);
             const [kakkoNumbers, setKakkoNumbers] = React.useState(new Array(1500).fill(''));
+            
+            const isArabic = language === 'Arabic';
 
             const handleSplit = () => {
                 const splitTexts = mainText.split(delimiter).map(text => text.trim());
@@ -166,9 +196,8 @@
             };
 
             const handleUnite = () => {
-                // Instead of filtering out empty strings, map each element to include empty strings as well
-                const unitedText = smallTexts.slice(0, 1500).map(text => text.trim() || '').join(delimiter);
-                setOutputText(unitedText);
+                const unitedText = smallTexts.join(delimiter);
+                setOutput(unitedText);
             };
 
             const handleCountKakkoWithNumbers = () => {
@@ -187,34 +216,52 @@
                 setSmallTexts(newSmallTexts);
             };
 
-            const handlePlay = (index) => {
-                const folderName = document.querySelector('.folder-name').value
+            const handlePlay = async (index) => {
+                const folderName = document.querySelector('.folder-name').value;
+                const serverLink = document.querySelector('.link-input').value || 'http://localhost:3000';
                 const audioPlayer = document.getElementById('audioPlayer');
                 const fourDigitNumber = kakkoNumbers[index];
-                console.log(fourDigitNumber)
+                console.log(fourDigitNumber);
                 if (fourDigitNumber) {
                     // Construct the filename based on the 4-digit number
                     const fileName = `${folderName}_${fourDigitNumber}.mp3`;
                     const fullPath = `${folderName}/${fileName}`; // Assuming server root as the base path
+                    let audioURL = '';
                     
-                    // Update the source of the audio element
-                    audioPlayer.src = fullPath;
+                    if (!folderName) {
+                        alert('No folder selected!');
+                        return;
+                    }
+
+                    await fetch(serverLink, {
+                        method: 'POST',
+                        body: JSON.stringify({ fullPath })
+                    }).then((response) => {
+                        return response.blob();
+                    }).then((blob) => {
+                        audioURL = URL.createObjectURL(blob);
+                    }).catch((error) => {
+                        console.error('Error fetching audio:', error);
+                        alert('Failed to fetch audio file.');
+                    });
+                    
+                    audioPlayer.src = audioURL;
                     audioPlayer.play().catch(e => {
-                        console.error('Error playing audio:', e);
+                        alert('Audio file not found or could not be played.');
                     });
                 } else {
-                    console.log('No corresponding audio file for this text segment.');
+                    alert('No corresponding audio file for this text segment.');
                 }
             };
 
             return (
-                <div className="language-part">
+                <div className={`language-part ${isArabic ? 'arabic-part' : ''}`}>
                     <div className="language-title">{language} Part</div>
                     <input 
                         type="text" 
                         value={delimiter} 
                         onChange={(e) => setDelimiter(e.target.value)}
-                        placeholder="Delimiter"
+                        placeholder={`Delimiter for ${language}`}
                         style={{width: '100%', marginBottom: '10px'}}
                     />
                     <textarea 
@@ -243,7 +290,7 @@
                     <div className="small-input-container">
                         {smallTexts.map((text, index) => (
                             <div key={index} className="small-input-wrapper">
-                                <div className="small-input-number">{index + 1}.</div>
+                                <div className={`small-input-number ${isArabic ? 'arabic-part' : ''}`}>{index + 1}.</div>
                                 <textarea 
                                     className="small-input"
                                     value={text}
@@ -255,7 +302,7 @@
                                     rows="2"
                                 />
                                 {isJapanese && kakkoNumbers[index] && (
-                                    <div className="kakko-number">
+                                    <div className={`kakko-number ${isArabic ? 'arabic-part' : ''}`}>
                                         {kakkoNumbers[index]}
                                     </div>
                                 )}
@@ -281,7 +328,7 @@
                         onClick={() => {
                             navigator.clipboard.writeText(outputText);
                         }}
-                        style={{ backgroundColor: '#ffc107', width: '45%', marginRight: '10px'}}
+                        style={{ backgroundColor: '#ffc107', width: '45%', marginRight: '10px', marginLeft: '10px'}}
                     >
                         Copy
                     </button>
@@ -297,11 +344,65 @@
         }
 
         function App() {
+            const [outputs, setOutputs] = React.useState(["", "", ""]);
+
+            const handleSave = () => {
+                const textToSave = outputs.join("\n---\n"); // Separate different language parts with "---"
+                const blob = new Blob([textToSave], { type: "text/plain" });
+                const a = document.createElement("a");
+                a.href = URL.createObjectURL(blob);
+                a.download = `text_split_${Date.now()}.txt`; // Random file name
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+
+            const handleLoad = () => {
+                const input = document.createElement("input");
+                input.type = "file";
+                input.accept = "text/plain";
+                input.onchange = (event) => {
+                    const file = event.target.files[0];
+                    if (!file) return;
+
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const content = e.target.result;
+                        const parts = content.split("\n---\n"); // Splitting based on our separator
+                        setOutputs(parts.slice(0, 3)); // Ensure we only take up to 3 parts or less
+                    };
+                    reader.readAsText(file);
+                };
+                input.click();
+            };
+
             return (
-                <div className="app-container">
-                    <TextSplitterPart language="Arabic" initialDelimiter="," />
-                    <TextSplitterPart language="English" initialDelimiter="," />
-                    <TextSplitterPart language="Jp" initialDelimiter="," isJapanese={true} />
+                <div>
+                    <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+                        <button className="button" style={{ backgroundColor: '#28a745', color: 'white', padding: '10px', fontSize: '16px' }} onClick={handleSave}>Save</button>
+                        <button className="button" style={{ backgroundColor: '#ff5722', color: 'white', padding: '10px', fontSize: '16px' }} onClick={handleLoad}>Load</button>
+                    </div>
+                    <div className="app-container">
+                        <TextSplitterPart 
+                            language="English" 
+                            initialDelimiter="," 
+                            setOutput={(text) => setOutputs(prev => [text, prev[1], prev[2]])}
+                            outputText={outputs[0]}
+                        />
+                        <TextSplitterPart 
+                            language="Arabic" 
+                            initialDelimiter="," 
+                            setOutput={(text) => setOutputs(prev => [prev[0], text, prev[2]])}
+                            outputText={outputs[1]}
+                        />
+                        <TextSplitterPart 
+                            language="Jp" 
+                            initialDelimiter="," 
+                            isJapanese={true} 
+                            setOutput={(text) => setOutputs(prev => [prev[0], prev[1], text])}
+                            outputText={outputs[2]}
+                        />
+                    </div>
                 </div>
             );
         }
