@@ -366,7 +366,7 @@
                 const blob = new Blob([textToSave], { type: "text/plain" });
                 const a = document.createElement("a");
                 a.href = URL.createObjectURL(blob);
-                a.download = `text_split_${Date.now()}.txt`; // Random file name
+                a.download = `text_split_${new Date().toTimeString().slice(0,8).replace(/:/g, '_')}.txt`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
