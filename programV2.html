@@ -19,27 +19,40 @@
             background-color: #f4f4f4;
         }
         .app-container {
-            display: flex;
             width: 100%;
-            gap: 10px;
-            overflow-x: auto;
+            max-width: 600px;
+            margin: 0 auto;
         }
-        .language-part {
-            flex: 1;
-            min-width: 300px;
+        .section {
             background-color: white;
             border: 1px solid #e0e0e0;
             border-radius: 8px;
             padding: 10px;
+            margin-bottom: 10px;
+        }
+        .arabic-part textarea, 
+        .arabic-part input {
+            text-align: right;
+        }
+        .arabic-part .small-input-wrapper {
+            flex-direction: row-reverse;
+        }
+        .arabic-part .small-input-number {
+            text-align: left;
+        }
+        .arabic-part .kakko-number {
+            right: auto;
+            left: -50px;
         }
         .button-container {
             display: flex;
+            flex-wrap: wrap;
             gap: 10px;
             margin-bottom: 10px;
         }
         .main-input {
             width: 100%;
-            height: 150px;
+            height: 100px;
             margin-bottom: 10px;
             resize: vertical;
             font-size: 16px;
@@ -48,12 +61,13 @@
             padding: 10px;
         }
         .button {
-            flex-grow: 1;
+            flex: 1;
             padding: 10px;
             color: white;
             border: none;
             border-radius: 4px;
             font-size: 16px;
+            min-width: 100px;
         }
         .split-button {
             background-color: #007bff;
@@ -99,11 +113,10 @@
             border-radius: 4px;
             font-size: 16px;
             margin-top: 10px;
-            margin-bottom: 10px;
         }
         .output-area {
             width: 100%;
-            height: 150px;
+            height: 100px;
             resize: vertical;
             font-size: 16px;
             border: 1px solid #ccc;
@@ -117,9 +130,9 @@
             color: #333;
         }
         .kakko-number {
-            position: absolute; 
-            right: -50px; 
-            top: 50%; 
+            position: absolute;
+            right: -50px;
+            top: 50%;
             transform: translateY(-50%);
             color: #666;
             font-size: 14px;
@@ -133,161 +146,240 @@
             height: 30px;
             margin-left: 5px;
         }
+        .language-label {
+            font-size: 14px;
+            color: #555;
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
+    <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+        <input class="folder-name" type="text" style="width: 100px;" placeholder="Folder Name">
+        <input class="link-input" type="text" style="width: 100px;" placeholder="Server Link">
+    </div>
     <div id="root"></div>
     <audio id="audioPlayer" style="display:none;"></audio>
 
     <script type="text/babel">
-        function TextSplitterPart({ language, initialDelimiter, isJapanese }) {
-            const [mainText, setMainText] = React.useState('');
-            const [smallTexts, setSmallTexts] = React.useState(new Array(3000).fill(''));
-            const [outputText, setOutputText] = React.useState('');
-            const [delimiter, setDelimiter] = React.useState(initialDelimiter);
-            const [kakkoNumbers, setKakkoNumbers] = React.useState(new Array(3000).fill(''));
+        function App() {
+            const [mainTexts, setMainTexts] = React.useState(["", "", ""]);
+            const [smallTexts, setSmallTexts] = React.useState({
+                English: new Array(1500).fill(''),
+                Arabic: new Array(1500).fill(''),
+                Jp: new Array(1500).fill('')
+            });
+            const [delimiters, setDelimiters] = React.useState([",", ",", ","]);
+            const [kakkoNumbers, setKakkoNumbers] = React.useState(new Array(1500).fill(''));
+            const [outputText, setOutputText] = React.useState("");
 
-            const handleSplit = () => {
-                const splitTexts = mainText.split(delimiter).map(text => text.trim());
-                
-                const newSmallTexts = new Array(3000).fill('');
-                splitTexts.forEach((text, index) => {
-                    if (index < 3000) {
-                        newSmallTexts[index] = text;
-                    }
+            const languages = ["English", "Arabic", "Jp"];
+            const isJapanese = (lang) => lang === "Jp";
+            const isArabic = (lang) => lang === "Arabic";
+
+            const handleSplit = (index) => {
+                const lang = languages[index];
+                const splitTexts = mainTexts[index].split(delimiters[index]).map(text => text.trim());
+                const newSmallTexts = { ...smallTexts };
+                newSmallTexts[lang] = new Array(1500).fill('');
+                splitTexts.forEach((text, i) => {
+                    if (i < 1500) newSmallTexts[lang][i] = text;
                 });
-
                 setSmallTexts(newSmallTexts);
-                setKakkoNumbers(new Array(3000).fill('')); // Reset when splitting
+                if (lang === "Jp") setKakkoNumbers(new Array(1500).fill(''));
             };
 
             const handleUnite = () => {
-                const filteredTexts = smallTexts.filter(text => text.trim() !== '');
-                const unitedText = filteredTexts.join(delimiter);
+                // Unite only the Arabic small texts
+                const unitedText = smallTexts.Arabic.filter(text => text).join(delimiters[1]);
                 setOutputText(unitedText);
             };
 
             const handleCountKakkoWithNumbers = () => {
-                const newKakkoNumbers = new Array(3000).fill('');
+                const newKakkoNumbers = new Array(1500).fill('');
                 let currentKakkoCount = 0;
-
-                const newSmallTexts = smallTexts.map((text, index) => {
+                smallTexts.Jp.forEach((text, index) => {
                     if (text.includes('「')) {
                         newKakkoNumbers[index] = currentKakkoCount.toString().padStart(4, '0');
                         currentKakkoCount++;
                     }
-                    return text;
                 });
-
                 setKakkoNumbers(newKakkoNumbers);
-                setSmallTexts(newSmallTexts);
             };
 
-            const handlePlay = (index) => {
+            const handlePlay = async (index) => {
+                const folderName = document.querySelector('.folder-name').value;
+                const serverLink = document.querySelector('.link-input').value || 'http://localhost:3000';
                 const audioPlayer = document.getElementById('audioPlayer');
                 const fourDigitNumber = kakkoNumbers[index];
-                console.log(fourDigitNumber)
                 if (fourDigitNumber) {
-                    // Construct the filename based on the 4-digit number
-                    const fileName = `2003_${fourDigitNumber}.mp3`;
-                    const fullPath = `2003/${fileName}`; // Assuming server root as the base path
-                    
-                    // Update the source of the audio element
-                    audioPlayer.src = fullPath;
+                    const fileName = `${folderName}_${fourDigitNumber}.mp3`;
+                    const fullPath = `${folderName}/${fileName}`;
+                    let audioURL = '';
+                    if (!folderName) {
+                        alert('No folder selected!');
+                        return;
+                    }
+                    await fetch(serverLink, {
+                        method: 'POST',
+                        body: JSON.stringify({ fullPath })
+                    }).then(response => response.blob())
+                      .then(blob => { audioURL = URL.createObjectURL(blob); })
+                      .catch(error => {
+                          console.error('Error fetching audio:', error);
+                          alert('Failed to fetch audio file.');
+                      });
+                    audioPlayer.src = audioURL;
                     audioPlayer.play().catch(e => {
-                        console.error('Error playing audio:', e);
+                        alert('Audio file not found or could not be played.');
                     });
                 } else {
-                    console.log('No corresponding audio file for this text segment.');
+                    alert('No corresponding audio file for this text segment.');
                 }
             };
 
+            const handleSave = () => {
+                const textToSave = languages.map((lang, index) => 
+                    smallTexts[lang].filter(text => text).join(delimiters[index])
+                ).join("\n---\n");
+                const blob = new Blob([textToSave], { type: "text/plain" });
+                const a = document.createElement("a");
+                a.href = URL.createObjectURL(blob);
+                a.download = `text_split_${new Date().toTimeString().slice(0,8).replace(/:/g, '_')}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+
+            const handleLoad = () => {
+                const input = document.createElement("input");
+                input.type = "file";
+                input.accept = "text/plain";
+                input.onchange = (event) => {
+                    const file = event.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const content = e.target.result;
+                        const parts = content.split("\n---\n");
+                        const newMainTexts = ["", "", ""];
+                        const newSmallTexts = { English: new Array(1500).fill(''), Arabic: new Array(1500).fill(''), Jp: new Array(1500).fill('') };
+                        parts.forEach((part, index) => {
+                            if (index < 3) {
+                                newMainTexts[index] = part;
+                                const splitTexts = part.split(delimiters[index]).map(t => t.trim());
+                                splitTexts.forEach((text, i) => {
+                                    if (i < 1500) newSmallTexts[languages[index]][i] = text;
+                                });
+                            }
+                        });
+                        setMainTexts(newMainTexts);
+                        setSmallTexts(newSmallTexts);
+                    };
+                    reader.readAsText(file);
+                };
+                input.click();
+            };
+
+            const combinedSmallTexts = [];
+            for (let i = 0; i < 1500; i++) {
+                languages.forEach(lang => {
+                    if (smallTexts[lang][i]) {
+                        combinedSmallTexts.push({ lang, index: i, text: smallTexts[lang][i] });
+                    }
+                });
+            }
+
             return (
-                <div className="language-part">
-                    <div className="language-title">{language} Part</div>
-                    <input 
-                        type="text" 
-                        value={delimiter} 
-                        onChange={(e) => setDelimiter(e.target.value)}
-                        placeholder="Delimiter"
-                        style={{width: '100%', marginBottom: '10px'}}
-                    />
-                    <textarea 
-                        className="main-input" 
-                        value={mainText}
-                        onChange={(e) => setMainText(e.target.value)}
-                        placeholder={`Enter ${language} text to split`}
-                        rows="5"
-                    />
-                    <div className="button-container">
-                        <button 
-                            className="button split-button" 
-                            onClick={handleSplit}
-                        >
-                            Split
-                        </button>
-                        {isJapanese && (
-                            <button 
-                                className="button count-button" 
-                                onClick={handleCountKakkoWithNumbers}
-                            >
-                                Count 「
-                            </button>
-                        )}
-                    </div>
-                    <div className="small-input-container">
-                        {smallTexts.map((text, index) => (
-                            <div key={index} className="small-input-wrapper">
-                                <div className="small-input-number">{index + 1}.</div>
-                                <textarea 
-                                    className="small-input"
-                                    value={text}
+                <div className="app-container">
+                    <div className="section">
+                        <div className="language-title">Input Texts</div>
+                        {languages.map((lang, index) => (
+                            <div key={lang}>
+                                <input 
+                                    type="text" 
+                                    value={delimiters[index]} 
                                     onChange={(e) => {
-                                        const newTexts = [...smallTexts];
-                                        newTexts[index] = e.target.value;
-                                        setSmallTexts(newTexts);
+                                        const newDelimiters = [...delimiters];
+                                        newDelimiters[index] = e.target.value;
+                                        setDelimiters(newDelimiters);
                                     }}
-                                    rows="2"
+                                    placeholder={`Delimiter for ${lang}`}
+                                    style={{width: '100%', marginBottom: '5px'}}
                                 />
-                                {isJapanese && kakkoNumbers[index] && (
-                                    <div className="kakko-number">
-                                        {kakkoNumbers[index]}
-                                    </div>
-                                )}
-                                {isJapanese && (
-                                    <button 
-                                        className="button play-button" 
-                                        onClick={() => handlePlay(index)}
-                                    >
-                                        ▶
+                                <textarea 
+                                    className="main-input" 
+                                    value={mainTexts[index]}
+                                    onChange={(e) => {
+                                        const newMainTexts = [...mainTexts];
+                                        newMainTexts[index] = e.target.value;
+                                        setMainTexts(newMainTexts);
+                                    }}
+                                    placeholder={`Enter ${lang} text to split`}
+                                    rows="3"
+                                />
+                                <div className="button-container">
+                                    <button className="button split-button" onClick={() => handleSplit(index)}>
+                                        Split {lang}
                                     </button>
-                                )}
+                                    {isJapanese(lang) && (
+                                        <button className="button count-button" onClick={handleCountKakkoWithNumbers}>
+                                            Count 「
+                                        </button>
+                                    )}
+                                </div>
                             </div>
                         ))}
                     </div>
-                    <button 
-                        className="unite-button" 
-                        onClick={handleUnite}
-                    >
-                        Unite
-                    </button>
-                    <textarea 
-                        className="output-area"
-                        value={outputText}
-                        readOnly
-                        placeholder="United text will appear here"
-                        rows="5"
-                    />
-                </div>
-            );
-        }
 
-        function App() {
-            return (
-                <div className="app-container">
-                    <TextSplitterPart language="Arabic" initialDelimiter="," />
-                    <TextSplitterPart language="English" initialDelimiter="," />
-                    <TextSplitterPart language="Jp" initialDelimiter="," isJapanese={true} />
+                    <div className="section">
+                        <div className="language-title">Small Texts</div>
+                        <div className="small-input-container">
+                            {combinedSmallTexts.map(({ lang, index, text }, i) => (
+                                <div key={`${lang}-${index}`} className={`small-input-wrapper ${isArabic(lang) ? 'arabic-part' : ''}`}>
+                                    <div className="small-input-number">{index + 1}.</div>
+                                    <span className="language-label">{lang}:</span>
+                                    <textarea 
+                                        className="small-input"
+                                        value={text}
+                                        onChange={(e) => {
+                                            const newSmallTexts = { ...smallTexts };
+                                            newSmallTexts[lang][index] = e.target.value;
+                                            setSmallTexts(newSmallTexts);
+                                        }}
+                                        rows="2"
+                                    />
+                                    {isJapanese(lang) && kakkoNumbers[index] && (
+                                        <div className={`kakko-number ${isArabic(lang) ? 'arabic-part' : ''}`}>
+                                            {kakkoNumbers[index]}
+                                        </div>
+                                    )}
+                                    {isJapanese(lang) && (
+                                        <button className="button play-button" onClick={() => handlePlay(index)}>
+                                            ▶
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="section">
+                        <div className="language-title">Arabic Output</div>
+                        <div className="button-container">
+                            <button className="button unite-button" onClick={handleUnite}>Unite Arabic</button>
+                            <button className="button" style={{ backgroundColor: '#ffc107' }} onClick={() => navigator.clipboard.writeText(outputText)}>Copy</button>
+                            <button className="button" style={{ backgroundColor: '#28a745' }} onClick={handleSave}>Save</button>
+                            <button className="button" style={{ backgroundColor: '#ff5722' }} onClick={handleLoad}>Load</button>
+                        </div>
+                        <textarea 
+                            className="output-area arabic-part"
+                            value={outputText}
+                            readOnly
+                            placeholder="United Arabic text will appear here"
+                            rows="3"
+                        />
+                    </div>
                 </div>
             );
         }
