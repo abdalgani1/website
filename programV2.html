@@ -138,14 +138,21 @@
             font-size: 14px;
         }
         .play-button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            margin-left: 5px;
-        }
+            background-color: #4CAF50; /* Green background */
+            color: white; /* White text */
+            border: none; /* Remove border */
+            cursor: pointer; /* Pointer cursor on hover */
+            width: 24px !important;
+            height: 24px !important;
+            margin-left: 5px; /* Space from the textarea */
+            padding: 0; /* Remove padding */
+            display: flex; /* Center the icon */
+            align-items: center; /* Vertical center */
+            justify-content: center; /* Horizontal center */
+            font-size: 12px; /* Adjust icon size */
+            line-height: 1; /* Prevent extra spacing */
+            flex-shrink: 0; /* Prevent shrinking */
+}
         .language-label {
             font-size: 14px;
             color: #555;
@@ -355,7 +362,7 @@
                                         </div>
                                     )}
                                     {isJapanese(lang) && (
-                                        <button className="button play-button" onClick={() => handlePlay(index)}>
+                                        <button className="play-button" onClick={() => handlePlay(index)}>
                                             ▶
                                         </button>
                                     )}
