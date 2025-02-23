@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multilingual Text Splitter</title>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            touch-action: manipulation;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 10px;
+            background-color: #f4f4f4;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .section {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .arabic-part textarea, 
+        .arabic-part input {
+            text-align: right;
+        }
+        .arabic-part .small-input-wrapper {
+            flex-direction: row-reverse;
+        }
+        .arabic-part .small-input-number {
+            text-align: left;
+        }
+        .arabic-part .kakko-number {
+            right: auto;
+            left: -50px;
+        }
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .main-input {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            resize: vertical;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        .button {
+            flex: 1;
+            padding: 10px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            min-width: 100px;
+        }
+        .split-button {
+            background-color: #007bff;
+        }
+        .count-button {
+            background-color: #17a2b8;
+        }
+        .small-input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        .small-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+        .small-input-number {
+            width: 50px;
+            text-align: right;
+            color: #666;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .small-input {
+            flex-grow: 1;
+            height: 60px;
+            resize: vertical;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        .unite-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .output-area {
+            width: 100%;
+            height: 100px;
+            resize: vertical;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        .language-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .kakko-number {
+            position: absolute;
+            right: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 14px;
+        }
+        .play-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 24px !important;
+            height: 24px !important;
+            margin-left: 5px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        .language-label {
+            font-size: 14px;
+            color: #555;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+        <input class="folder-name" type="text" style="width: 100px;" placeholder="Folder Name">
+        <input class="link-input" type="text" style="width: 100px;" placeholder="Server Link">
+    </div>
+    <div id="root"></div>
+    <audio id="audioPlayer" style="display:none;"></audio>
+
+    <script type="text/babel">
+        function App() {
+            const [mainTexts, setMainTexts] = React.useState(["", "", ""]);
+            const [smallTexts, setSmallTexts] = React.useState({
+                English: new Array(1500).fill(''),
+                Arabic: new Array(1500).fill(''),
+                Jp: new Array(1500).fill('')
+            });
+            const [delimiters, setDelimiters] = React.useState([",", ",", ","]);
+            const [kakkoNumbers, setKakkoNumbers] = React.useState(new Array(1500).fill(''));
+            const [outputText, setOutputText] = React.useState("");
+            const [currentPage, setCurrentPage] = React.useState(0);
+            const itemsPerPage = 12;
+
+            const languages = ["English", "Arabic", "Jp"];
+            const isJapanese = (lang) => lang === "Jp";
+            const isArabic = (lang) => lang === "Arabic";
+
+            const handleSplit = (index) => {
+                const lang = languages[index];
+                const splitTexts = mainTexts[index].split(delimiters[index]).map(text => text.trim());
+                const newSmallTexts = { ...smallTexts };
+                newSmallTexts[lang] = new Array(1500).fill('');
+                splitTexts.forEach((text, i) => {
+                    if (i < 1500) newSmallTexts[lang][i] = text;
+                });
+                setSmallTexts(newSmallTexts);
+                if (lang === "Jp") setKakkoNumbers(new Array(1500).fill(''));
+            };
+
+            const handleUnite = () => {
+                const unitedText = smallTexts.Arabic.slice(0, 1500).join(delimiters[1]);
+                setOutputText(unitedText);
+            };
+
+            const handleCountKakkoWithNumbers = () => {
+                const newKakkoNumbers = new Array(1500).fill('');
+                let currentKakkoCount = 0;
+                smallTexts.Jp.forEach((text, index) => {
+                    if (text.includes('「')) {
+                        newKakkoNumbers[index] = currentKakkoCount.toString().padStart(4, '0');
+                        currentKakkoCount++;
+                    }
+                });
+                setKakkoNumbers(newKakkoNumbers);
+            };
+
+            const handlePlay = async (index) => {
+                const folderName = document.querySelector('.folder-name').value;
+                const serverLink = document.querySelector('.link-input').value || 'http://localhost:3000';
+                const audioPlayer = document.getElementById('audioPlayer');
+                const fourDigitNumber = kakkoNumbers[index];
+                if (fourDigitNumber) {
+                    const fileName = `${folderName}_${fourDigitNumber}.mp3`;
+                    const fullPath = `${folderName}/${fileName}`;
+                    let audioURL = '';
+                    if (!folderName) {
+                        alert('No folder selected!');
+                        return;
+                    }
+                    await fetch(serverLink, {
+                        method: 'POST',
+                        body: JSON.stringify({ fullPath })
+                    }).then(response => response.blob())
+                      .then(blob => { audioURL = URL.createObjectURL(blob); })
+                      .catch(error => {
+                          console.error('Error fetching audio:', error);
+                          alert('Failed to fetch audio file.');
+                      });
+                    audioPlayer.src = audioURL;
+                    audioPlayer.play().catch(e => {
+                        alert('Audio file not found or could not be played.');
+                    });
+                } else {
+                    alert('No corresponding audio file for this text segment.');
+                }
+            };
+
+            const handleSave = () => {
+                const textToSave = languages.map((lang, index) => 
+                    smallTexts[lang].filter(text => text).join(delimiters[index])
+                ).join("\n---\n");
+                const blob = new Blob([textToSave], { type: "text/plain" });
+                const a = document.createElement("a");
+                a.href = URL.createObjectURL(blob);
+                a.download = `text_split_${new Date().toTimeString().slice(0,8).replace(/:/g, '_')}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+
+            const handleLoad = () => {
+                const input = document.createElement("input");
+                input.type = "file";
+                input.accept = "text/plain";
+                input.onchange = (event) => {
+                    const file = event.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const content = e.target.result;
+                        const parts = content.split("\n---\n");
+                        const newMainTexts = ["", "", ""];
+                        const newSmallTexts = { English: new Array(1500).fill(''), Arabic: new Array(1500).fill(''), Jp: new Array(1500).fill('') };
+                        parts.forEach((part, index) => {
+                            if (index < 3) {
+                                newMainTexts[index] = part;
+                                const splitTexts = part.split(delimiters[index]).map(t => t.trim());
+                                splitTexts.forEach((text, i) => {
+                                    if (i < 1500) newSmallTexts[languages[index]][i] = text;
+                                });
+                            }
+                        });
+                        setMainTexts(newMainTexts);
+                        setSmallTexts(newSmallTexts);
+                    };
+                    reader.readAsText(file);
+                };
+                input.click();
+            };
+
+            // Create array of all possible slots (1500) with language assignments
+            const allSlots = Array.from({ length: 1500 }, (_, i) => {
+                const slot = { index: i };
+                languages.forEach(lang => {
+                    slot[lang] = smallTexts[lang][i];
+                });
+                return slot;
+            });
+
+            const totalItems = 1500; // Fixed total items to show all slots
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const startIndex = currentPage * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+            const paginatedItems = allSlots.slice(startIndex, endIndex);
+
+            const handleNext = () => {
+                if (currentPage < totalPages - 1) {
+                    setCurrentPage(currentPage + 1);
+                }
+            };
+
+            const handlePrevious = () => {
+                if (currentPage > 0) {
+                    setCurrentPage(currentPage - 1);
+                }
+            };
+
+            return (
+                <div className="app-container">
+                    <div className="section">
+                        <div className="language-title">Input Texts</div>
+                        {languages.map((lang, index) => (
+                            <div key={lang}>
+                                <input 
+                                    type="text" 
+                                    value={delimiters[index]} 
+                                    onChange={(e) => {
+                                        const newDelimiters = [...delimiters];
+                                        newDelimiters[index] = e.target.value;
+                                        setDelimiters(newDelimiters);
+                                    }}
+                                    placeholder={`Delimiter for ${lang}`}
+                                    style={{width: '100%', marginBottom: '5px'}}
+                                />
+                                <textarea 
+                                    className="main-input" 
+                                    value={mainTexts[index]}
+                                    onChange={(e) => {
+                                        const newMainTexts = [...mainTexts];
+                                        newMainTexts[index] = e.target.value;
+                                        setMainTexts(newMainTexts);
+                                    }}
+                                    placeholder={`Enter ${lang} text to split`}
+                                    rows="3"
+                                />
+                                <div className="button-container">
+                                    <button className="button split-button" onClick={() => handleSplit(index)}>
+                                        Split {lang}
+                                    </button>
+                                    {isJapanese(lang) && (
+                                        <button className="button count-button" onClick={handleCountKakkoWithNumbers}>
+                                            Count 「
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="section">
+                        <div className="language-title">Small Texts</div>
+                        <div className="small-input-container">
+                            {paginatedItems.map((slot, i) => (
+                                <div key={slot.index}>
+                                    {languages.map(lang => (
+                                        <div key={`${lang}-${slot.index}`} 
+                                             className={`small-input-wrapper ${isArabic(lang) ? 'arabic-part' : ''}`}>
+                                            <div className="small-input-number">{slot.index + 1}.</div>
+                                            <span className="language-label">{lang}:</span>
+                                            <textarea 
+                                                className="small-input"
+                                                value={slot[lang]}
+                                                onChange={(e) => {
+                                                    const newSmallTexts = { ...smallTexts };
+                                                    newSmallTexts[lang][slot.index] = e.target.value;
+                                                    setSmallTexts(newSmallTexts);
+                                                }}
+                                                rows="2"
+                                            />
+                                            {isJapanese(lang) && kakkoNumbers[slot.index] && (
+                                                <div className={`kakko-number ${isArabic(lang) ? 'arabic-part' : ''}`}>
+                                                    {kakkoNumbers[slot.index]}
+                                                </div>
+                                            )}
+                                            {isJapanese(lang) && (
+                                                <button className="play-button" onClick={() => handlePlay(slot.index)}>
+                                                    ▶
+                                                </button>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                        <div className="button-container" style={{marginTop: '10px', justifyContent: 'space-between'}}>
+                            <button 
+                                className="button" 
+                                onClick={handlePrevious} 
+                                disabled={currentPage === 0}
+                                style={{backgroundColor: '#6c757d'}}
+                            >
+                                Previous
+                            </button>
+                            <span>Page {currentPage + 1} of {totalPages}</span>
+                            <button 
+                                className="button" 
+                                onClick={handleNext} 
+                                disabled={currentPage === totalPages - 1}
+                                style={{backgroundColor: '#6c757d'}}
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="section">
+                        <div className="language-title">Arabic Output</div>
+                        <div className="button-container">
+                            <button className="button unite-button" onClick={handleUnite}>Unite Arabic</button>
+                            <button className="button" style={{ backgroundColor: '#ffc107' }} onClick={() => navigator.clipboard.writeText(outputText)}>Copy</button>
+                            <button className="button" style={{ backgroundColor: '#28a745' }} onClick={handleSave}>Save</button>
+                            <button className="button" style={{ backgroundColor: '#ff5722' }} onClick={handleLoad}>Load</button>
+                        </div>
+                        <textarea 
+                            className="output-area arabic-part"
+                            value={outputText}
+                            readOnly
+                            placeholder="United Arabic text will appear here"
+                            rows="3"
+                        />
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
