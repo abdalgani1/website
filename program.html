@@ -184,11 +184,14 @@
             const [outputText, setOutputText] = React.useState("");
             const [currentPage, setCurrentPage] = React.useState(0);
             const itemsPerPage = 12;
-
+    
+            // Reference for the small-input-container
+            const smallInputContainerRef = React.useRef(null);
+    
             const languages = ["En", "Ar", "Jp"];
             const isJapanese = (lang) => lang === "Jp";
             const isAr = (lang) => lang === "Ar";
-
+    
             const handleSplit = (index) => {
                 const lang = languages[index];
                 const splitTexts = mainTexts[index].split(delimiters[index]).map(text => text.trim());
@@ -200,12 +203,12 @@
                 setSmallTexts(newSmallTexts);
                 if (lang === "Jp") setKakkoNumbers(new Array(1500).fill(''));
             };
-
+    
             const handleUnite = () => {
                 const unitedText = smallTexts.Ar.slice(0, 1500).join(delimiters[1]);
                 setOutputText(unitedText);
             };
-
+    
             const handleCountKakkoWithNumbers = () => {
                 const newKakkoNumbers = new Array(1500).fill('');
                 let currentKakkoCount = 0;
@@ -217,7 +220,7 @@
                 });
                 setKakkoNumbers(newKakkoNumbers);
             };
-
+    
             const handlePlay = async (index) => {
                 const folderName = document.querySelector('.folder-name').value;
                 const serverLink = document.querySelector('.link-input').value || 'http://localhost:3000';
@@ -248,7 +251,7 @@
                     alert('No corresponding audio file for this text segment.');
                 }
             };
-
+    
             const handleSave = () => {
                 const textToSave = languages.map((lang, index) => 
                     smallTexts[lang].filter(text => text).join(delimiters[index])
@@ -261,7 +264,7 @@
                 a.click();
                 document.body.removeChild(a);
             };
-
+    
             const handleLoad = () => {
                 const input = document.createElement("input");
                 input.type = "file";
@@ -291,7 +294,7 @@
                 };
                 input.click();
             };
-
+    
             const allSlots = Array.from({ length: 1500 }, (_, i) => {
                 const slot = { index: i };
                 languages.forEach(lang => {
@@ -299,25 +302,30 @@
                 });
                 return slot;
             });
-
+    
             const totalItems = 1500;
             const totalPages = Math.ceil(totalItems / itemsPerPage);
             const startIndex = currentPage * itemsPerPage;
             const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
             const paginatedItems = allSlots.slice(startIndex, endIndex);
-
+    
             const handleNext = () => {
                 if (currentPage < totalPages - 1) {
                     setCurrentPage(currentPage + 1);
+                    // Scroll to top only for Next button
+                    if (smallInputContainerRef.current) {
+                        smallInputContainerRef.current.scrollTop = 0;
+                    }
                 }
             };
-
+    
             const handlePrevious = () => {
                 if (currentPage > 0) {
                     setCurrentPage(currentPage - 1);
+                    // No scroll adjustment here
                 }
             };
-
+    
             return (
                 <div className="app-container">
                     <div className="section">
@@ -361,10 +369,10 @@
                             </div>
                         ))}
                     </div>
-
+    
                     <div className="section">
                         <div className="language-title">Small Texts</div>
-                        <div className="small-input-container">
+                        <div className="small-input-container" ref={smallInputContainerRef}>
                             {paginatedItems.map((slot, i) => (
                                 <div key={slot.index}>
                                     {languages.map(lang => (
@@ -418,7 +426,7 @@
                             </button>
                         </div>
                     </div>
-
+    
                     <div className="section">
                         <div className="language-title">Ar Output</div>
                         <div className="button-container">
@@ -440,7 +448,7 @@
                 </div>
             );
         }
-
+    
         ReactDOM.render(<App />, document.getElementById('root'));
     </script>
 </body>
