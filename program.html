@@ -175,12 +175,12 @@
         function App() {
             const [mainTexts, setMainTexts] = React.useState(["", "", ""]);
             const [smallTexts, setSmallTexts] = React.useState({
-                En: new Array(1500).fill(''),
-                Ar: new Array(1500).fill(''),
-                Jp: new Array(1500).fill('')
+                En: new Array(2100).fill(''),
+                Ar: new Array(2100).fill(''),
+                Jp: new Array(2100).fill('')
             });
             const [delimiters, setDelimiters] = React.useState([",", ",", ","]);
-            const [kakkoNumbers, setKakkoNumbers] = React.useState(new Array(1500).fill(''));
+            const [kakkoNumbers, setKakkoNumbers] = React.useState(new Array(2100).fill(''));
             const [outputText, setOutputText] = React.useState("");
             const [currentPage, setCurrentPage] = React.useState(0);
             const itemsPerPage = 12;
@@ -196,21 +196,21 @@
                 const lang = languages[index];
                 const splitTexts = mainTexts[index].split(delimiters[index]).map(text => text.trim());
                 const newSmallTexts = { ...smallTexts };
-                newSmallTexts[lang] = new Array(1500).fill('');
+                newSmallTexts[lang] = new Array(2100).fill('');
                 splitTexts.forEach((text, i) => {
-                    if (i < 1500) newSmallTexts[lang][i] = text;
+                    if (i < 2100) newSmallTexts[lang][i] = text;
                 });
                 setSmallTexts(newSmallTexts);
-                if (lang === "Jp") setKakkoNumbers(new Array(1500).fill(''));
+                if (lang === "Jp") setKakkoNumbers(new Array(2100).fill(''));
             };
     
             const handleUnite = () => {
-                const unitedText = smallTexts.Ar.slice(0, 1500).join(delimiters[1]);
+                const unitedText = smallTexts.Ar.slice(0, 2100).join(delimiters[1]);
                 setOutputText(unitedText);
             };
     
             const handleCountKakkoWithNumbers = () => {
-                const newKakkoNumbers = new Array(1500).fill('');
+                const newKakkoNumbers = new Array(2100).fill('');
                 let currentKakkoCount = 0;
                 smallTexts.Jp.forEach((text, index) => {
                     if (text.includes('「')) {
@@ -277,13 +277,13 @@
                         const content = e.target.result;
                         const parts = content.split("\n---\n");
                         const newMainTexts = ["", "", ""];
-                        const newSmallTexts = { En: new Array(1500).fill(''), Ar: new Array(1500).fill(''), Jp: new Array(1500).fill('') };
+                        const newSmallTexts = { En: new Array(2100).fill(''), Ar: new Array(2100).fill(''), Jp: new Array(2100).fill('') };
                         parts.forEach((part, index) => {
                             if (index < 3) {
                                 newMainTexts[index] = part;
                                 const splitTexts = part.split(delimiters[index]).map(t => t.trim());
                                 splitTexts.forEach((text, i) => {
-                                    if (i < 1500) newSmallTexts[languages[index]][i] = text;
+                                    if (i < 2100) newSmallTexts[languages[index]][i] = text;
                                 });
                             }
                         });
@@ -295,7 +295,7 @@
                 input.click();
             };
     
-            const allSlots = Array.from({ length: 1500 }, (_, i) => {
+            const allSlots = Array.from({ length: 2100 }, (_, i) => {
                 const slot = { index: i };
                 languages.forEach(lang => {
                     slot[lang] = smallTexts[lang][i];
@@ -303,7 +303,7 @@
                 return slot;
             });
     
-            const totalItems = 1500;
+            const totalItems = 2100;
             const totalPages = Math.ceil(totalItems / itemsPerPage);
             const startIndex = currentPage * itemsPerPage;
             const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
