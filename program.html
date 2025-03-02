@@ -205,7 +205,10 @@
             };
     
             const handleUnite = () => {
-                const unitedText = smallTexts.Ar.slice(0, 2100).join(delimiters[1]);
+                const arTexts = smallTexts.Ar.slice(0, 2100); // Take all 2100 slots
+                // Ensure empty slots are explicitly empty strings, not undefined
+                const paddedTexts = arTexts.map(text => text || '');
+                const unitedText = paddedTexts.join(delimiters[1]);
                 setOutputText(unitedText);
             };
     
