@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WA2 translation tool</title>
-    <link rel="wibsite icon" type="png" href="images/Icon4.png">
+    <link rel="icon" type="image/png" href="images/Icon4.png">
     <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
@@ -186,7 +186,6 @@
             const [currentPage, setCurrentPage] = React.useState(0);
             const itemsPerPage = 12;
     
-            // Reference for the small-input-container
             const smallInputContainerRef = React.useRef(null);
     
             const languages = ["En", "Ar", "Jp"];
@@ -206,8 +205,7 @@
             };
     
             const handleUnite = () => {
-                const arTexts = smallTexts.Ar.slice(0, 2100); // Take all 2100 slots
-                // Ensure empty slots are explicitly empty strings, not undefined
+                const arTexts = smallTexts.Ar.slice(0, 2100);
                 const paddedTexts = arTexts.map(text => text || '');
                 const unitedText = paddedTexts.join(delimiters[1]);
                 setOutputText(unitedText);
@@ -258,7 +256,7 @@
     
             const handleSave = () => {
                 const textToSave = languages.map((lang, index) => 
-                    smallTexts[lang].filter(text => text).join(delimiters[index])
+                    smallTexts[lang].slice(0, 2100).map(text => text || '').join(delimiters[index])
                 ).join("\n---\n");
                 const blob = new Blob([textToSave], { type: "text/plain" });
                 const a = document.createElement("a");
@@ -316,7 +314,6 @@
             const handleNext = () => {
                 if (currentPage < totalPages - 1) {
                     setCurrentPage(currentPage + 1);
-                    // Scroll to top only for Next button
                     if (smallInputContainerRef.current) {
                         smallInputContainerRef.current.scrollTop = 0;
                     }
@@ -326,7 +323,6 @@
             const handlePrevious = () => {
                 if (currentPage > 0) {
                     setCurrentPage(currentPage - 1);
-                    // No scroll adjustment here
                 }
             };
     
