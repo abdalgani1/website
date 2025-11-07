@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>White Album2</title>
+  <link rel="stylesheet" href="styles/reset.css">
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="website icon" type="image/png" href="images/logo.png">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDPNR8PYKZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZDPNR8PYKZ');
+  </script>
+
+  <style>
+    /* ===== إضافات قسم الصور ===== */
+    .gallery {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .gallery h3 {
+      margin-bottom: 15px;
+    }
+
+    .thumbnails {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .thumbnails img {
+      width: 160px;
+      height: auto;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 6px rgba(0,0,0,0.3);
+    }
+
+    .thumbnails img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(255,255,255,0.5);
+    }
+
+    /* النافذة المكبرة */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      padding-top: 60px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.9);
+      animation: fadeIn 0.4s ease;
+    }
+
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90vh;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+      animation: zoomIn 0.4s ease;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .close:hover {
+      color: #ccc;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes zoomIn {
+      from {transform: scale(0.7);}
+      to {transform: scale(1);}
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <ul>
+      <a href="index.html"><li><span>&#10052;</span>المقدمة</li></a>
+      <a href="patch.html"><li><span>&#10052;</span>الباتش</li></a>
+      <a href="news.html"><li><span>&#10052;</span>الأخبار</li></a>
+      <a href="faq.html"><li><span>&#10052;</span>أسئلة شائعة</li></a>
+      <a href="staff.html"><li><span>&#10052;</span>الطاقم</li></a>
+      <a href="chat.html"><li><span>&#10052;</span>للتواصل</li></a>
+    </ul>
+  </header>
+
+  <main>
+    <picture>
+      <img src="images/image5.jpg" alt="image">
+    </picture>
+    <div class="container">
+      <h1>الباتش</h1>
+      <img class="logo" src="images/logo.png">
+      <p>
+        <h3>&#10052; يحتوي على &#10052;</h3>
+        :ترجمتي من اليابانية مباشرة للعربية تشمل<br>
+        Introductory Chapter إعادة ترجمة شاملة لأول تشابتر في اللعبة <br>
+        ًبمجموع 18959 سطرا<br>
+        Closing Chapter ترجمة ثاني تشابتر باللعبة والأكبر  <br>
+        ًبمجموع 61104 سطراً وعدد ٦ نهايات<br>
+        Coda Chapter ترجمة ثالث تشابتر باللعبة والأخير <br>
+        بمجموع 40988 سطراً وعدد ٤ نهايات<br>
+        ترجمة بجودة أعلى بكثير<br>
+        دعم إتجاه النص من اليمين إلى اليسار بشكل كامل <br>
+        لانشر جديد حصري لنا عربي بالكامل<br>
+        ترجمة لكامل القوائم في اللعبة<br>
+        ترجمة كل الأغاني والفيديوهات مع كاراوكي في اللعبة<br>
+        ترجمة كاملة لكل أصوات الشخصيات في الخلفية التي ليس لها مربع حوار<br>
+        PS3 تمت إضافة 20 صورة خاصة بنسخة اللعبة على<br>
+        لزيادة جودة التجربة البصرية وإثراء المحتوى الفني للعبة<br>
+      </p>
+
+      <ul>
+        <h3>&#10052; للتحميل &#10052;</h3>
+        <a href="https://www.mediafire.com/file/87ty7oaett54htk/WHITE_ALBUM2_AR_Patch_v3.0.exe/file" target="_blank"><li>&#10052; تحميل الباتش 3.0 &#10052;</li></a>
+        <a href="https://zenmarket.jp/amazonproduct.aspx?itemCode=B0788BRGN3" target="_blank"><li>&#10052; لشراء اللعبة &#10052;</li></a>
+        <a href="https://www.youtube.com/watch?v=VkSwwgKMgRY" target="_blank"><li>&#10052; شرح تركيب الباتش على اليوتيوب &#10052;</li></a>
+        <a href="https://abdalgani1.github.io/website/WA2%20list.html" target="_blank"><li>&#10052; خريطة خيارات ونهايات اللعبة مترجمة &#10052;</li></a>
+      </ul>
+
+      <!-- ===== قسم الصور الجديدة ===== -->
+      <div class="gallery">
+        <h3>&#10052; أمثلة من الترجمة &#10052;</h3>
+        <div class="thumbnails">
+          <img src="images/sample1.jpg" alt="ترجمة 1" onclick="openImage(this)">
+          <img src="images/sample2.jpg" alt="ترجمة 2" onclick="openImage(this)">
+        </div>
+      </div>
+
+      <!-- النافذة المكبرة -->
+      <div id="imageModal" class="modal" onclick="closeImage()">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="fullImage">
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function openImage(element) {
+      const modal = document.getElementById('imageModal');
+      const fullImg = document.getElementById('fullImage');
+      fullImg.src = element.src;
+      modal.style.display = "block";
+    }
+
+    function closeImage() {
+      document.getElementById('imageModal').style.display = "none";
+    }
+  </script>
+</body>
+</html>
