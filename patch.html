@@ -27,7 +27,6 @@
     .gallery h3 {
       margin-bottom: 15px;
     }
-
     .thumbnails {
       display: flex;
       flex-wrap: wrap;
@@ -35,10 +34,13 @@
       gap: 20px;
     }
 
-     .thumbnails img {
-       width: calc(50% - 20px); 
-       max-width: 160px; /* لعدم تمدد الصورة أكثر من حجمك الأصلي */
-       height: auto;
+    .thumbnails img {
+      width: calc(50% - 20px); /* صورتان بالصف */
+      height: auto;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 6px rgba(0,0,0,0.3);
     }
 
     .thumbnails img:hover {
