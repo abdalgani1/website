@@ -29,19 +29,15 @@
     }
     .thumbnails {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
-    }
+      flex-wrap: wrap;
+     }
 
     .thumbnails img {
-      width: calc(50% - 20px); /* صورتان بالصف */
+      width: 160px;
       height: auto;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 0 6px rgba(0,0,0,0.3);
-    }
+     }
 
     .thumbnails img:hover {
       transform: scale(1.05);
