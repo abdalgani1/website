@@ -7,9 +7,9 @@
   <style>
     :root{
       --gap: clamp(16px, 4vw, 40px);
-      --cover-min: 140px;   /* أصغر عرض للغلاف */
-      --cover-ideal: 18vw;  /* عرض مفضل نسبي */
-      --cover-max: 260px;   /* أكبر عرض للغلاف */
+      --cover-min: 140px;
+      --cover-ideal: 18vw;
+      --cover-max: 260px;
       --radius: 12px;
       --shadow: 0 10px 30px rgba(0,0,0,0.35);
       --shadow-hover: 0 18px 50px rgba(0,0,0,0.5);
@@ -19,6 +19,7 @@
 
     * { box-sizing: border-box; }
     html, body { height: 100%; }
+
     body {
       margin: 0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -26,37 +27,55 @@
       background: #000;
     }
 
-    /* قسم الخلفية */
     .hero {
       min-height: 100vh;
       position: relative;
-      display: grid;
-      place-items: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       padding: clamp(24px, 5vw, 48px);
-      /* استبدل الصورة التالية بخلفيتك 16:9 (مثلاً 1920x1080) */
       background-image: url("003.jpg");
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
       isolation: isolate;
     }
-    /* طبقة تعتيم خفيفة لتحسين التباين */
+
     .hero::before{
       content: "";
-      position: absolute; inset: 0;
+      position: absolute;
+      inset: 0;
       background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.55));
       z-index: -1;
     }
 
-    /* عنوان اختياري */
+    /* حاوية المحتوى كلها مزاحة قليلاً لليمين */
+    .content {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      transform: translateX(90px);
+    }
+
     .title {
       text-align: center;
       margin-bottom: clamp(12px, 2vh, 24px);
       text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+      width: 100%;
     }
 
-    /* حاوية الأغلفة */
     .covers {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--gap);
+    }
+
+    /* الصف الأول: صورتان */
+    .covers-row {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -64,11 +83,17 @@
       gap: var(--gap);
     }
 
-    /* عنصر الغلاف القابل للنقر */
+    /* الصف الثاني: صورة واحدة */
+    .covers-single {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
     .cover {
       display: block;
       width: clamp(var(--cover-min), var(--cover-ideal), var(--cover-max));
-      aspect-ratio: 135 / 190; /* نسبة واجهة غلاف PS2 (رأسي بشكل واضح) */
+      aspect-ratio: 135 / 190;
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: var(--shadow);
@@ -79,65 +104,85 @@
       background: #111;
     }
 
-    /* الصورة داخل الغلاف */
     .cover img{
       width: 100%;
       height: 100%;
-      object-fit: cover; /* يحافظ على ملء الإطار بدون تشويه */
+      object-fit: cover;
       display: block;
       transform: scale(1.001);
       transition: transform var(--trans), filter var(--trans);
     }
 
-    /* تأثير تمرير: تكبير خفيف + ظل أعمق + تشبّع */
     .cover:hover,
     .cover:focus-visible{
       transform: scale(var(--hover-scale));
       box-shadow: var(--shadow-hover);
       outline: none;
     }
+
     .cover:hover img,
     .cover:focus-visible img{
       filter: saturate(1.08) contrast(1.03);
     }
 
-    /* وميض رقيق من الأعلى لإحساس لامع */
     .cover::after{
       content: "";
-      position: absolute; inset: 0;
+      position: absolute;
+      inset: 0;
       background: linear-gradient(200deg, rgba(255,255,255,0.08), rgba(0,0,0,0) 40%);
       pointer-events: none;
       mix-blend-mode: screen;
       transition: opacity var(--trans);
       opacity: 0.65;
     }
-    .cover:hover::after { opacity: 0.85; }
 
-    /* توافق أصغر الشاشات */
+    .cover:hover::after {
+      opacity: 0.85;
+    }
+
+    @media (max-width: 768px){
+      .content {
+        transform: translateX(0);
+        align-items: center;
+      }
+
+      .title {
+        text-align: center;
+      }
+    }
+
     @media (max-width: 520px){
-      .covers { gap: 16px; }
+      .covers-row { gap: 16px; }
       .title { font-size: 1.1rem; }
     }
   </style>
 </head>
 <body>
   <main class="hero" aria-label="صفحة التمهيد">
-    <header class="title">
-      <h1>ترجمة عبدالغني </h1>
-      <p>اختر الغلاف للدخول لصفحة اللعبة</p>
-    </header>
+    <div class="content">
+      <header class="title">
+        <h1>ترجمة عبدالغني</h1>
+        <p>اختر الغلاف للدخول لصفحة اللعبة</p>
+      </header>
 
-    <section class="covers" aria-label="أغلفة الألعاب">
-      <!-- الغلاف الأول: استبدل الرابط والصورة والـalt -->
-      <a class="cover" href="patch.html" aria-label="الدخول إلى لعبة 1">
-        <img src="cover-game-1.jpg" alt="غلاف لعبة 1">
-      </a>
+      <section class="covers" aria-label="أغلفة الألعاب">
+        <div class="covers-row">
+          <a class="cover" href="patch.html" aria-label="الدخول إلى لعبة 1">
+            <img src="cover-game-1.jpg" alt="غلاف لعبة 1">
+          </a>
 
-      <!-- الغلاف الثاني: استبدل الرابط والصورة والـalt -->
-      <a class="cover" href="patch2.html" aria-label="الدخول إلى لعبة 2">
-        <img src="cover-game-22.jpg" alt="غلاف لعبة 2">
-      </a>
-    </section>
+          <a class="cover" href="patch2.html" aria-label="الدخول إلى لعبة 2">
+            <img src="cover-game-22.jpg" alt="غلاف لعبة 2">
+          </a>
+        </div>
+
+        <div class="covers-single">
+          <a class="cover" href="patch3.html" aria-label="الدخول إلى لعبة 3">
+            <img src="cover-game-3.jpg" alt="غلاف لعبة 3">
+          </a>
+        </div>
+      </section>
+    </div>
   </main>
 </body>
 </html>
