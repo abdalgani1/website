@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل كانون (Kanon) - جميع النهايات</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --panel: #171a24;
+    --panel-border: #262b3a;
+    --text: #e8e9ee;
+    --muted: #9aa0b4;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", Tahoma, "Noto Naskh Arabic", Arial, sans-serif;
+    height: 100%;
+  }
+  .page-title {
+    text-align: center;
+    padding: 14px 10px 8px;
+  }
+  .page-title h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+  }
+  .page-title p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .board {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    padding: 10px;
+    height: calc(100vh - 78px);
+    box-sizing: border-box;
+  }
+  .column {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-top: 4px solid var(--accent);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+  }
+  .char-header {
+    padding: 10px 12px;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 22%, transparent), transparent);
+    border-bottom: 1px solid var(--panel-border);
+    flex-shrink: 0;
+  }
+  .char-header h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--accent);
+    text-align: center;
+  }
+  .steps-wrap {
+    overflow-y: auto;
+    padding: 8px 10px 16px;
+    flex: 1;
+  }
+  .steps-wrap::-webkit-scrollbar { width: 6px; }
+  .steps-wrap::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 4px; }
+
+  .date-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 12px 0 4px;
+    padding-bottom: 3px;
+    border-bottom: 1px dashed var(--panel-border);
+  }
+  .date-label:first-child { margin-top: 2px; }
+
+  .ending-label {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #0f1117;
+    background: var(--accent);
+    margin: 14px 0 6px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    text-align: center;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 3px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+  .step:hover {
+    background: rgba(255,255,255,0.04);
+  }
+  .step input[type="checkbox"] {
+    display: none;
+  }
+  .step .box {
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    margin-top: 1px;
+    border: 1.5px solid var(--muted);
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.15s ease;
+  }
+  .step input[type="checkbox"]:checked + .box {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .step input[type="checkbox"]:checked + .box::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 0px;
+    width: 4px;
+    height: 8px;
+    border: solid #0f1117;
+    border-width: 0 2px 2px 0;
+    transform: rotate(40deg);
+  }
+  .step input[type="checkbox"]:checked ~ .txt {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+
+  @media (max-width: 1100px) {
+    .board {
+      grid-template-columns: repeat(2, 1fr);
+      height: auto;
+    }
+  }
+  @media (max-width: 560px) {
+    .board {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="page-title">
+    <h1>دليل كانون (Kanon) — طرق الوصول لجميع النهايات</h1>
+    <p>حدد الخيارات بالترتيب في كل عمود للوصول إلى نهاية الشخصية المطلوبة</p>
+  </div>
+  <div class="board">
+    <section class="column" style="--accent:#7c3aed">
+      <header class="char-header"><h2>نايوكي ميناسي</h2></header>
+      <div class="steps-wrap">
+        <div class="date-label">7 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استيقظ</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">هل يمكنك أن تريني المدينة؟</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">الأقل ما يمكنني فعله هو حمل حقيبتك الآن</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اختلق عذراً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا تستفسر أكثر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابق هنا</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">امتنع</span></label>
+        <div class="date-label">8 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ادخل الغرفة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استمر في المحاولة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اطلب منها أن تفعل ذلك</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">هذا ليس صحيحاً على الإطلاق</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">سأفكر في الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا أحتاج للمزيد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لنتوقف عن ذلك</span></label>
+        <div class="date-label">9 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">انتظر حتى تنتهي</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">من أتيت لتقابل؟</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تجنب</span></label>
+        <div class="date-label">10 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تأكد من صحة فقدان ذاكرتها</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">امتنع</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اصرخ بأعلى صوتك لمفاجأتها</span></label>
+        <div class="date-label">11 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تخلَّ عن الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">سأنتظر أيضاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اعترف بالهزيمة بصدق</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">قدم التشجيع فقط</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اقضِ الوقت شارداً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استحم واذهب للنوم قبل أن أبرد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">عاقبها</span></label>
+        <div class="date-label">12 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابقَ الليلة في المدرسة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">سأتوقف عند الحي التجاري قبل العودة للمنزل</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ربما كنت جاداً بشأن ذلك</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اطلب كتباً مثيرة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">كن صبوراً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اترك الباقي لأكيكو</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">انهض على مضض</span></label>
+        <div class="date-label">13 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اتبع نايوكي</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أعتقد أنه يمكنني المساعدة حسب ما هو مطلوب</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اجعلها تعد وجبات الغداء</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تحلَّ بالشجاعة واذهب للمنزل</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">التقطها وارمها في الممر</span></label>
+        <div class="date-label">14 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">امنعها من الذهاب</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ليس لدي وقت لذلك</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب لتناول شيء ما</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أعتقد أن واحدة لن تؤذي...</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">رتب الغرفة</span></label>
+        <div class="date-label">15 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">هذا لن يحدث أبداً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أعتقد أنني سأسترخي هنا</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أخبرها أن تعيدها إلى الثلاجة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">[حفظ 01]</span></label>
+        <div class="ending-label">— النهاية الجيدة —</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استراتيجية رقم 2 (16 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب للمنزل (16 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">غادر بسلام (17 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">بالتأكيد (19 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أيقظها (19 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">عد مع نايوكي (20 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">«نايوكي» اسم جميل (21 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">بشدة (21 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">وافق على الدراسة معاً (21 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">قل شيئاً مطمئناً (22 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ادرس مع نايوكي اليوم أيضاً (22 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اسألها عن عيد ميلادها (23 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب لغرفة نايوكي (23 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اطلب مجلة (25 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">كل هنا (26 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اشترِ لها شيئاً (26 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اطرق الباب (28 يناير)</span></label>
+        <div class="ending-label">— النهاية السيئة —</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">[تحميل 01] (16 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استراتيجية رقم 1 (16 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب للمنزل (16 يناير)</span></label>
+      </div>
+    </section>
+    <section class="column" style="--accent:#0891b2">
+      <header class="char-header"><h2>ماكوتو ساواتاري</h2></header>
+      <div class="steps-wrap">
+        <div class="date-label">7 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استمر بالنوم</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">هل يمكنك أن تريني المدينة؟</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لن أحمل حقيبتك</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اختلق عذراً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا تستفسر أكثر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابق هنا</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">امتنع</span></label>
+        <div class="date-label">8 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تجاهل الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أخبرها أنه غير ضروري</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا أحتاج للمزيد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لنتوقف عن ذلك</span></label>
+        <div class="date-label">9 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اجعلها تسرع</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اجعلها تنهي الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">منذ متى وأنتِ هنا؟</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تجنب</span></label>
+        <div class="date-label">10 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابدأ بتقديم نفسك</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">امتنع</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اصرخ بأعلى صوتك لمفاجأتها</span></label>
+        <div class="date-label">11 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تخلَّ عن الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">سأنتظر أيضاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اعترف بالهزيمة بصدق</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">قدم التشجيع فقط</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">زر غرفة ماكوتو</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استحم واذهب للنوم قبل أن أبرد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">عاقبها</span></label>
+        <div class="date-label">12 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا تنم</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">سأتوقف عند الحي التجاري قبل العودة للمنزل</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اطلب سجائر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابحث عن شيء لتناول وجبة خفيفة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استجوبها الآن</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">خذ ملابسك واترك الغرفة</span></label>
+        <div class="date-label">13 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أنهِ الأكل أولاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا أريد المساعدة فعلاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ارفض</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">توقف عند الحي التجاري واشترِ مظلة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">التقطها وارمها في الممر</span></label>
+        <div class="date-label">14 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">دعها تفعل ما تريد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ليس لدي وقت لذلك</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">انتظر حتى نصل للمنزل</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">رتب الغرفة</span></label>
+        <div class="date-label">15 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">هذا لن يحدث أبداً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أعتقد أنني سأسترخي هنا</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أعتقد أنني سآكل بعضها</span></label>
+        <div class="date-label">16 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استراتيجية رقم 1</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">امشِ بجانبي</span></label>
+        <div class="date-label">17 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">راقبها قليلاً</span></label>
+        <div class="date-label">18 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تخيل كيف سيسير الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">قط إيتو</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ادخل</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابقَ نائماً</span></label>
+        <div class="date-label">19 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">آه، نعم</span></label>
+        <div class="date-label">20 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لقد انتقلت إلى هنا مؤخراً فقط</span></label>
+        <div class="date-label">21-22 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">&lt;لا خيارات&gt;</span></label>
+        <div class="date-label">23 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابحث عن أمانو</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">غادر بهدوء</span></label>
+        <div class="date-label">24 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابقَ هنا قليلاً بعد</span></label>
+        <div class="date-label">25 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">عد إلى بوابة المدرسة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">[حفظ 02]</span></label>
+        <div class="ending-label">— النهاية الجيدة —</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">بالتأكيد أمانو (26 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">&lt;لا خيارات&gt; (27-28 يناير)</span></label>
+        <div class="ending-label">— النهاية السيئة —</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">[تحميل 02] (26 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">بالتأكيد نايوكي (26 يناير)</span></label>
+      </div>
+    </section>
+    <section class="column" style="--accent:#dc2626">
+      <header class="char-header"><h2>ماي كاواسومي</h2></header>
+      <div class="steps-wrap">
+        <div class="date-label">7 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استمر بالنوم</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">هل يمكنك مساعدتي في ترتيب غرفتي؟</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">افعل ذلك رجاءً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أعتقد أنه يمكنني الذهاب</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لن أحمل حقيبتك</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اختلق عذراً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا تستفسر أكثر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابق هنا</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">امتنع</span></label>
+        <div class="date-label">8 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تجاهل الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أخبرها أنه غير ضروري</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا أحتاج للمزيد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لنتوقف عن ذلك</span></label>
+        <div class="date-label">9 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اجعلها تسرع</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">انتظر قليلاً بعد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">منذ متى وأنتِ هنا؟</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا تتجنب</span></label>
+        <div class="date-label">10 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابدأ بتقديم نفسك</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اصرخ بأعلى صوتك لمفاجأتها</span></label>
+        <div class="date-label">11 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">جرب الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اعترف بالهزيمة بصدق</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">قدم التشجيع فقط</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اقضِ الوقت شارداً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب للمدرسة وأحضر الدفتر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">دعها تفلت من العقاب</span></label>
+        <div class="date-label">12 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا تنم</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ما هذه الوحوش التي تتحدثين عنها؟</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تناول الغداء معاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">جرب شيئاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">سأذهب للمنزل مباشرة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">كن صبوراً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اترك الباقي لأكيكو</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب للمدرسة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">انتظر حتى تكتشف ماي الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">انهض على مضض</span></label>
+        <div class="date-label">13 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أنهِ الأكل أولاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا أريد المساعدة فعلاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ارفض</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">توقف عند الحي التجاري واشترِ مظلة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">التقطها وارمها في الممر</span></label>
+        <div class="date-label">14 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">دعها تفعل ما تريد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ليس لدي وقت لذلك</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">دافع عنها</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">انتظر حتى نصل للمنزل</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">سأبقى مع ماي</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">رتب الغرفة</span></label>
+        <div class="date-label">15 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">هذا لن يحدث أبداً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أعتقد أنني سأسترخي هنا</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اركض حاملاً أطباق اللحم</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أخبرها أن تعيدها إلى الثلاجة</span></label>
+        <div class="date-label">16 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استراتيجية رقم 1</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابحث عن ماي</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب إلى المكان المعتاد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">المس صدرها</span></label>
+        <div class="date-label">17 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تهرب من السؤال بقول أي شيء</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أفضل ألا أفعل</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ادعُ ماي لمكان ما</span></label>
+        <div class="date-label">18 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أجب بصدق</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أنا عائق، أليس كذلك؟</span></label>
+        <div class="date-label">19 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ألقِ أرز الناتو جانباً واركض لالتقاط السيف</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تريدني أن أرمي السيف عليه</span></label>
+        <div class="date-label">20 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">وافق</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابحث عن سايوري</span></label>
+        <div class="date-label">21 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أحببتها</span></label>
+        <div class="date-label">22 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">جمع التواقيع</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تدخل</span></label>
+        <div class="date-label">23 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اقرص خد ماي</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">من يسأل ذلك؟</span></label>
+        <div class="date-label">24 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">خذ مكان ماي في القتال</span></label>
+        <div class="date-label">25 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تناول الطعام في مقصف المدرسة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">[حفظ 03]</span></label>
+        <div class="ending-label">— نهاية ماي الجيدة (1) —</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب يساراً (25 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">&lt;لا خيار&gt; (26 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">من المهم التهرب (27 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اسأل ماي (27 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">كوراتا (28 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تذكر فجأة شيئاً سخيفاً (28 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اسأل ماي ماذا تفعل (28 يناير)</span></label>
+        <div class="ending-label">— نهاية ماي الجيدة (2) —</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">&lt;لا خيار&gt; (29 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اقفز أمامها (30 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تهرب (30 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استمر بالركض فقط (30 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تدحرج على الأرض (30 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">[حفظ 04]</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">احجب بظهر السيف</span></label>
+        <div class="ending-label">— نهاية ماي السيئة —</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">[تحميل 04] (30 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اضرب للأسفل</span></label>
+      </div>
+    </section>
+    <section class="column" style="--accent:#16a34a">
+      <header class="char-header"><h2>شيوري ميساكا</h2></header>
+      <div class="steps-wrap">
+        <div class="date-label">7 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استمر بالنوم</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">هل يمكنك مساعدتي في ترتيب غرفتي؟</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">افعل ذلك رجاءً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أعتقد أنه يمكنني الذهاب</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لن أحمل حقيبتك</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اختلق عذراً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا تستفسر أكثر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابق هنا</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">امتنع</span></label>
+        <div class="date-label">8 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تجاهل الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أخبرها أنه غير ضروري</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا أحتاج للمزيد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لنتوقف عن ذلك</span></label>
+        <div class="date-label">9 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اجعلها تسرع</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اجعلها تنهي الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">من أتيت لتقابل؟</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تجنب</span></label>
+        <div class="date-label">10 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تأكد من صحة فقدان ذاكرتها</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اصرخ بأعلى صوتك لمفاجأتها</span></label>
+        <div class="date-label">11 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تخلَّ عن الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">سأمضي قدماً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اسأل عن سبب وجودها هنا</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اعترف بالهزيمة بصدق</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">قدم التشجيع فقط</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اقضِ الوقت شارداً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استحم واذهب للنوم قبل أن أبرد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">عاقبها</span></label>
+        <div class="date-label">12 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا تنم</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اتركها وشأنها الآن</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اشترِ لها شيئاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">سأذهب للمنزل مباشرة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">كن صبوراً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اترك الباقي لأكيكو</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">انهض على مضض</span></label>
+        <div class="date-label">13 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أنهِ الأكل أولاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا أريد المساعدة في هذا فعلاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تحدث عن شيوري</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أعتقد أنني سآكلها</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اسأل شيوري عن كاوري</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تحلَّ بالشجاعة واذهب للمنزل</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">التقطها وارمها في الممر</span></label>
+        <div class="date-label">14 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">دعها تفعل ما تريد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ليس لدي وقت لذلك</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استمر بالانتظار</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">انتظر حتى نصل للمنزل</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">رتب الغرفة</span></label>
+        <div class="date-label">15 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">هذا لن يحدث أبداً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">سأخرج أيضاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">امشِ إلى المدرسة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أخبرها أن تعيدها إلى الثلاجة</span></label>
+        <div class="date-label">16 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استراتيجية رقم 1</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لنذهب إلى مكان تعرفينه</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أعدك</span></label>
+        <div class="date-label">17 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تهرب من السؤال بقول أي شيء</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أفضل ألا أفعل</span></label>
+        <div class="date-label">18 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">حاول دغدغتها بدلاً من ذلك</span></label>
+        <div class="date-label">19 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">خض معركة كرات ثلج</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أريد رؤيتها فعلاً</span></label>
+        <div class="date-label">20 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أعتقد أنني أحبها</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اعتذر</span></label>
+        <div class="date-label">21 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب إلى المكان المعتاد</span></label>
+        <div class="date-label">22 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا تذهب إلى المقصف</span></label>
+        <div class="date-label">23 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">نعم...</span></label>
+        <div class="date-label">24 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أعدك</span></label>
+        <div class="date-label">25 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا يمكنني الانتظار</span></label>
+        <div class="date-label">26 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أجبر نفسك على الأكل</span></label>
+        <div class="date-label">27 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">عاشقان</span></label>
+        <div class="date-label">28 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">&lt;لا خيارات&gt;</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">[حفظ 05]</span></label>
+        <div class="ending-label">— النهاية الجيدة —</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">نادِ عليهم إلى طاولتنا (29 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ربما (30 يناير)</span></label>
+        <div class="ending-label">— النهاية السيئة —</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">[تحميل 05] (29 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">انظر بعيداً عنهم (29 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لست كذلك (30 يناير)</span></label>
+      </div>
+    </section>
+    <section class="column" style="--accent:#d97706">
+      <header class="char-header"><h2>آيو تسوكيمييا</h2></header>
+      <div class="steps-wrap">
+        <div class="date-label">7 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استمر بالنوم</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">هل يمكنك أن تريني المدينة؟</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لن أحمل حقيبتك</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا تختلق عذراً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استفسر أكثر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اهرب معها</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">خذها</span></label>
+        <div class="date-label">8 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تجاهل الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أخبرها أنه غير ضروري</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">نعم...</span></label>
+        <div class="date-label">9 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اجعلها تسرع</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اجعلها تنهي الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">منذ متى وأنتِ هنا؟</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تجنب</span></label>
+        <div class="date-label">10 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تأكد من صحة فقدان ذاكرتها</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">دعها تساعد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">كنتِ مفيدة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اصرخ بأعلى صوتك لمفاجأتها</span></label>
+        <div class="date-label">11 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">جرب الأمر</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اعتذر بصدق</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">انضم إليها في البحث</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اقضِ الوقت شارداً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استحم واذهب للنوم قبل أن أبرد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">عاقبها</span></label>
+        <div class="date-label">12 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابقَ الليلة في المدرسة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">سأتوقف عند الحي التجاري قبل العودة للمنزل</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اطلب كتباً مثيرة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ساعدها</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">كن صبوراً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اترك الباقي لأكيكو</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">انهض على مضض</span></label>
+        <div class="date-label">13 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أنهِ الأكل أولاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">لا أريد المساعدة فعلاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ارفض</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">توقف عند الحي التجاري واشترِ مظلة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">هل ستبحثين عنه مجدداً اليوم؟</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">التقطها وارمها في الممر</span></label>
+        <div class="date-label">14 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">دعها تفعل ما تريد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أعتقد أنني سآكلها</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">انتظر حتى نصل للمنزل</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">رتب الغرفة</span></label>
+        <div class="date-label">15 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">قد يحدث ذلك</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">سأخرج أيضاً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب إلى الحي التجاري</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أخبرها أن تعيدها إلى الثلاجة</span></label>
+        <div class="date-label">16 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">استراتيجية رقم 1</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب للمنزل</span></label>
+        <div class="date-label">17 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أجب بشكل طبيعي</span></label>
+        <div class="date-label">18 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">&lt;لا خيارات&gt;</span></label>
+        <div class="date-label">19 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">بالتأكيد</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اتركها وشأنها</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">انحز لنايوكي</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اشرح ما تقصده</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">دعها تطبخ</span></label>
+        <div class="date-label">20 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اضايقها أكثر</span></label>
+        <div class="date-label">21 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">سأشربه من أجلك</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">نعم، أنتِ مصدر إزعاج</span></label>
+        <div class="date-label">22 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">&lt;لا خيارات&gt;</span></label>
+        <div class="date-label">23 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">عد مع آيو</span></label>
+        <div class="date-label">24 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">نعم</span></label>
+        <div class="date-label">25 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">أنا سيدة محترمة</span></label>
+        <div class="date-label">26 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">افتح الستارة</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">[حفظ 06]</span></label>
+        <div class="ending-label">— النهاية الجيدة —</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">طاردها فوراً (27 يناير)</span></label>
+        <div class="ending-label">— النهاية السيئة —</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">[تحميل 06] (27 يناير)</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">ابقَ هنا قليلاً بعد (27 يناير)</span></label>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
