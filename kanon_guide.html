@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>خريطة كانون (Kanon) - جميع النهايات</title>
+<title>دليل كانون (Kanon) - جميع النهايات</title>
 <style>
   :root {
     --bg: #0f1117;
@@ -14,33 +14,20 @@
   }
   * { box-sizing: border-box; }
   html, body {
-    margin: 0;
-    padding: 0;
-    background: var(--bg);
-    color: var(--text);
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
     font-family: "Segoe UI", Tahoma, "Noto Naskh Arabic", Arial, sans-serif;
     height: 100%;
   }
-  .page-title {
-    text-align: center;
-    padding: 14px 10px 8px;
-  }
-  .page-title h1 {
-    margin: 0;
-    font-size: 1.6rem;
-    letter-spacing: 0.5px;
-  }
-  .page-title p {
-    margin: 4px 0 0;
-    color: var(--muted);
-    font-size: 0.85rem;
-  }
+  .page-title { text-align: center; padding: 12px 10px 6px; }
+  .page-title h1 { margin: 0; font-size: 1.45rem; letter-spacing: 0.5px; }
+  .page-title p { margin: 4px 0 0; color: var(--muted); font-size: 0.82rem; }
   .board {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-    padding: 10px;
-    height: calc(100vh - 78px);
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    padding: 8px;
+    height: calc(100vh - 70px);
     box-sizing: border-box;
   }
   .column {
@@ -48,114 +35,75 @@
     border: 1px solid var(--panel-border);
     border-top: 4px solid var(--accent);
     border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    min-width: 0;
+    display: flex; flex-direction: column;
+    overflow: hidden; min-width: 0;
   }
   .char-header {
-    padding: 10px 12px;
+    padding: 9px 8px;
     background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 22%, transparent), transparent);
     border-bottom: 1px solid var(--panel-border);
     flex-shrink: 0;
   }
-  .char-header h2 {
-    margin: 0;
-    font-size: 1.05rem;
-    color: var(--accent);
-    text-align: center;
-  }
-  .steps-wrap {
-    overflow-y: auto;
-    padding: 8px 10px 16px;
-    flex: 1;
-  }
+  .char-header h2 { margin: 0; font-size: 0.95rem; color: var(--accent); text-align: center; }
+  .steps-wrap { overflow-y: auto; padding: 8px 9px 16px; flex: 1; }
   .steps-wrap::-webkit-scrollbar { width: 6px; }
   .steps-wrap::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 4px; }
 
   .date-label {
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--accent);
-    margin: 12px 0 4px;
-    padding-bottom: 3px;
+    font-size: 0.74rem; font-weight: 700; color: var(--accent);
+    margin: 11px 0 4px; padding-bottom: 3px;
     border-bottom: 1px dashed var(--panel-border);
   }
   .date-label:first-child { margin-top: 2px; }
 
   .ending-label {
-    font-size: 0.82rem;
-    font-weight: 800;
-    color: #0f1117;
-    background: var(--accent);
-    margin: 14px 0 6px;
-    padding: 4px 8px;
-    border-radius: 6px;
-    text-align: center;
+    font-size: 0.78rem; font-weight: 800; color: #0f1117;
+    background: var(--accent); margin: 13px 0 6px;
+    padding: 4px 6px; border-radius: 6px; text-align: center;
+  }
+  .branch-label {
+    font-size: 0.76rem; font-weight: 800; color: #0f1117;
+    background: #facc15; margin: 13px 0 6px;
+    padding: 4px 6px; border-radius: 6px; text-align: center;
+  }
+  .condition-label {
+    font-size: 0.72rem; font-weight: 700; color: #0f1117;
+    background: #f87171; margin: 4px 0 8px;
+    padding: 5px 7px; border-radius: 6px; text-align: center;
+    line-height: 1.4;
   }
 
   .step {
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-    padding: 3px 2px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 0.78rem;
-    line-height: 1.35;
+    display: flex; align-items: flex-start; gap: 6px;
+    padding: 3px 2px; cursor: pointer; border-radius: 5px;
+    font-size: 0.73rem; line-height: 1.35;
   }
-  .step:hover {
-    background: rgba(255,255,255,0.04);
-  }
-  .step input[type="checkbox"] {
-    display: none;
-  }
+  .step:hover { background: rgba(255,255,255,0.04); }
+  .step input[type="checkbox"] { display: none; }
   .step .box {
-    flex-shrink: 0;
-    width: 15px;
-    height: 15px;
-    margin-top: 1px;
-    border: 1.5px solid var(--muted);
-    border-radius: 4px;
-    position: relative;
-    transition: all 0.15s ease;
+    flex-shrink: 0; width: 14px; height: 14px; margin-top: 1px;
+    border: 1.5px solid var(--muted); border-radius: 4px;
+    position: relative; transition: all 0.15s ease;
   }
-  .step input[type="checkbox"]:checked + .box {
-    background: var(--accent);
-    border-color: var(--accent);
-  }
+  .step input[type="checkbox"]:checked + .box { background: var(--accent); border-color: var(--accent); }
   .step input[type="checkbox"]:checked + .box::after {
-    content: "";
-    position: absolute;
-    left: 4px;
-    top: 0px;
-    width: 4px;
-    height: 8px;
-    border: solid #0f1117;
-    border-width: 0 2px 2px 0;
-    transform: rotate(40deg);
+    content: ""; position: absolute; left: 3.5px; top: 0px;
+    width: 4px; height: 7px; border: solid #0f1117;
+    border-width: 0 2px 2px 0; transform: rotate(40deg);
   }
-  .step input[type="checkbox"]:checked ~ .txt {
-    color: var(--muted);
-    text-decoration: line-through;
-  }
+  .step input[type="checkbox"]:checked ~ .txt { color: var(--muted); text-decoration: line-through; }
 
-  @media (max-width: 1100px) {
-    .board {
-      grid-template-columns: repeat(2, 1fr);
-      height: auto;
-    }
+  @media (max-width: 1300px) {
+    .board { grid-template-columns: repeat(3, 1fr); height: auto; }
   }
-  @media (max-width: 560px) {
-    .board {
-      grid-template-columns: 1fr;
-    }
+  @media (max-width: 700px) {
+    .board { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
   <div class="page-title">
-    <h1>خريطة كانون (Kanon) — طرق الوصول لجميع النهايات</h1>
+    <h1>دليل كانون (Kanon) — طرق الوصول لجميع النهايات</h1>
     <p>حدد الخيارات بالترتيب في كل عمود للوصول إلى نهاية الشخصية المطلوبة</p>
   </div>
   <div class="board">
@@ -423,8 +371,10 @@
         <div class="date-label">25 يناير</div>
         <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">تناول الطعام في مقصف المدرسة</span></label>
         <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">[حفظ 03]</span></label>
-        <div class="ending-label">— نهاية ماي الجيدة (1) —</div>
-        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب يساراً (25 يناير)</span></label>
+        <div class="branch-label">⚡ نقطة تفرع — 26 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب يساراً ← يكمل مسار ماي</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب يميناً ← ينتقل لمسار سايوري (عمود منفصل)</span></label>
+        <div class="ending-label">— استمرار مسار ماي —</div>
         <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">&lt;لا خيار&gt; (26 يناير)</span></label>
         <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">من المهم التهرب (27 يناير)</span></label>
         <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اسأل ماي (27 يناير)</span></label>
@@ -442,6 +392,18 @@
         <div class="ending-label">— نهاية ماي السيئة —</div>
         <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">[تحميل 04] (30 يناير)</span></label>
         <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اضرب للأسفل</span></label>
+      </div>
+    </section>
+    <section class="column" style="--accent:#9333ea">
+      <header class="char-header"><h2>سايوري كوراتا</h2></header>
+      <div class="steps-wrap">
+        <div class="condition-label">شرط الدخول: أنهِ أولاً نهاية ماي الجيدة (1) حتى [حفظ 03] بتاريخ 25 يناير</div>
+        <div class="date-label">26 يناير</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">[تحميل 03]</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اذهب يميناً</span></label>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">اسألها</span></label>
+        <div class="ending-label">— النهاية الوحيدة —</div>
+        <label class="step"><input type="checkbox"><span class="box"></span><span class="txt">سايوري هي الشخصية الوحيدة في اللعبة التي لها نهاية واحدة فقط، بلا نهاية سيئة منفصلة</span></label>
       </div>
     </section>
     <section class="column" style="--accent:#16a34a">
