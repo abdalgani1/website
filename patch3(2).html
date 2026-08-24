@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kanon Steam</title>
+<link rel="stylesheet" href="styles/reset.css">
+<link rel="stylesheet" href="styles/style.css">
+<link rel="website icon" type="image/png" href="images/2.png">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDPNR8PYKZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDPNR8PYKZ');
+</script>
+<style>
+  .gallery {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .gallery h3 {
+    margin-bottom: 15px;
+  }
+  .thumbnails {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .thumbnails img {
+    width: 160px;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .thumbnails img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255,255,255,0.5);
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+    animation: fadeIn 0.4s ease;
+  }
+  .modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90vh;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.3);
+    animation: zoomIn 0.4s ease;
+  }
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  .close:hover {
+    color: #ccc;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes zoomIn {
+    from { transform: scale(0.7); }
+    to { transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+<header>
+  <ul>
+    <li><a href="index.html"><span>الرئيسية</span></a></li>
+    <li><a href="patch3.html"><span>الباتش</span></a></li>
+    <li><a href="news3.html"><span>الأخبار</span></a></li>
+    <li><a href="404.html"><span>الأسئلة الشائعة</span></a></li>
+    <li><a href="staff3.html"><span>الفريق</span></a></li>
+    <li><a href="chat.html"><span>الدردشة</span></a></li>
+  </ul>
+</header>
+
+<main>
+  <picture>
+    <img src="images/BG024H.jpeg" alt="image">
+  </picture>
+
+  <div class="container">
+    <h1><img class="logo" src="images/kanon photo.png"></h1>
+    <p>
+      <h3>❄ يحتوي على ❄</h3>
+      كامل اللعبة مترجمة ومقدمة مني لكم
+      <br>--<br>
+      حتى يظهر الخط العربي Mincho ملاحظة: يجب إختيار اللعبة العربية وتحديد خط
+      <br>
+      ملاحظة: إذا قمت بتثبيت الباتش على نسخة مكركة من اللعبة فلن تعمل ترجمة الواجهة
+      <br>
+      لكن النصوص العربية ستعمل
+      <br>
+    </p>
+
+    <ul>
+      <h3>❄ للتحميل ❄</h3>
+      <a href="https://www.mediafire.com/file/p7ycj7yhfcfocxm/KanonSteamEditionARPatchv1.0.exe/file" target="_blank"><li>❄ تحميل الباتش 1.0 ❄</li></a>
+      <a href="https://store.steampowered.com/app/2850310/Kanon" target="_blank"><li>❄ لشراء اللعبة ❄</li></a>
+      <a href="google.com" target="_blank"><li>❄ شرح تركيب الباتش على اليوتيوب ❄</li></a>
+      <a href="https://abdalgani1.github.io/website/kanonguide.html" target="_blank"><li>❄ خريطة نهايات كانون مترجمة ❄</li></a>
+    </ul>
+
+    <!-- معرض الصور -->
+    <div class="gallery">
+      <h3>❄ صور من الباتش ❄</h3>
+      <div class="thumbnails">
+        <img src="images/kanon1.jpg" alt="صورة 1" onclick="openImage(this)">
+        <img src="images/kanon2.jpg" alt="صورة 2" onclick="openImage(this)">
+        <img src="images/kanon3.jpg" alt="صورة 3" onclick="openImage(this)">
+      </div>
+    </div>
+    <!-- نهاية معرض الصور -->
+
+    <div id="imageModal" class="modal" onclick="closeImage()">
+      <span class="close">&times;</span>
+      <img class="modal-content" id="fullImage">
+    </div>
+
+  </div>
+</main>
+
+<script>
+  function openImage(element) {
+    const modal = document.getElementById('imageModal');
+    const fullImg = document.getElementById('fullImage');
+    fullImg.src = element.src;
+    modal.style.display = "block";
+  }
+  function closeImage() {
+    document.getElementById('imageModal').style.display = "none";
+  }
+</script>
+
+</body>
+</html>
